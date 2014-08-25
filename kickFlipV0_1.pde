@@ -3,9 +3,13 @@
 //DECLARE VARIABLES HERE
 
 
+Input teamname1;
+Input teamname2;
 
 StopWatchTimer sw; //this is one instance if stopWatch class
 Style style;
+
+JSONObject teamNames;
 
 boolean mainBool = true;
 boolean secondBool = false;
@@ -26,7 +30,8 @@ button boroughButton;
 //the stuff for LES
 boolean lesDBool = false; //for the directions
 boolean checkBool = false; //checkin at the location
-boolean loginBool = false; //login the team names
+boolean loginBool = false; //login team 1's name
+boolean loginBool2 = false;//login team 2's name
 boolean team1Bool = false; //team1 players and difficulty selected
 boolean team2Bool = false; //team2 players and difficulty selected
 boolean startBool = false; //start the race!
@@ -68,6 +73,11 @@ void setup(){
 //size(640,1136);
 size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
+
+teamNames = new JSONObject();
+
+teamname1 = new Input();
+teamname2 = new Input();
 
 style = new Style();
 style.scheme(2);
@@ -135,6 +145,11 @@ void draw(){
  
   if(loginBool){
 //  team1Screen(); //skipping the team name enter screens for the time being
+  loginScreen2();
+ }
+ 
+   if(loginBool2){
+//  team1Screen(); //skipping the team name enter screens for the time being
   obstaclesScreen();
  }
  
@@ -154,7 +169,7 @@ void draw(){
    finishScreen();
  }
  
-
+//style.showGrid();
  
  //Again, for the demo, we skip right to the local map
 //  if (mapBool){
@@ -166,8 +181,21 @@ void draw(){
 // }
 // 
   
+  
+ // style.showGrid();
 }
 
-//-------------------------------------
+ //-------------------------------------
 
+void keyPressed() {
+  
+   if(checkBool){
+   teamname1.input();
+   }
+   
+   if(loginBool){
+   teamname2.input();
+   }
+   
+}
 

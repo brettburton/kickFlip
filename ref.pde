@@ -6,25 +6,27 @@ void refScreen(){
   textSize(style.h1);
   text("Team 1", style.col2, style.row1);
   text("Obstacle # " + obstacle1, style.col2, style.row2);
+  
   hit1Button.display(style.col2, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
   hit1Button.update();
   
-  miss1Button.display(style.col2,style.row6, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
+  miss1Button.display(style.col2,style.row5, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
   miss1Button.update();
 
-  cop1Button.display(style.col2,style.row8, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
+  cop1Button.display(style.col2,style.row6, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
   cop1Button.update();
   
   textSize(style.h1);
   text("Team 2", style.col6, style.row1);
   text("Obstacle # " + obstacle2, style.col6, style.row2);
+  
   hit2Button.display(style.col6, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);
   hit2Button.update();
   
-  miss2Button.display(style.col6,style.row6, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
+  miss2Button.display(style.col6,style.row5, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
   miss2Button.update();
 
-  cop2Button.display(style.col6,style.row8, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
+  cop2Button.display(style.col6,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
   cop2Button.update();
   
   

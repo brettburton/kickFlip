@@ -77,7 +77,7 @@ Style() {
   row1 = int(height/8);
   row2 = int(height/4);
   row3 = int(height/2.66);
-  row4 = int(height/20);
+  row4 = int(height/2);
   row5 = int(height/1.6);
   row6 = int(height/1.33);
   row7 = int(height/1.14);

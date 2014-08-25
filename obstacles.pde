@@ -5,13 +5,13 @@ void obstaclesScreen(){
 
  
  textSize(style.h3);
- text("Team 1", style.col2, style.row2);
+ text(teamname1.saved, style.col2, style.row2);
  textSize(style.p);
  text("Order of course obstacles", style.col2, style.row3);
  text("Trick Dropdown goes here", style.col2, style.row4);
  
  textSize(style.h3);
- text("Team 2", style.col6, style.row2);
+ text(teamname2.saved, style.col6, style.row2);
  textSize(style.p);
  text("Order of course obstacles", style.col6, style.row3);
  text("Trick Dropdown goes here", style.col6, style.row4);
