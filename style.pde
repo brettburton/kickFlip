@@ -74,14 +74,14 @@ Style() {
   col7 = int(width/1.14);
   col8 = int(width);
   
-  row1 = int(width/8);
-  row2 = int(width/4);
-  row3 = int(width/2.66);
-  row4 = int(width/2);
-  row5 = int(width/1.6);
-  row6 = int(width/1.33);
-  row7 = int(width/1.14);
-  row8 = int(width);
+  row1 = int(height/8);
+  row2 = int(height/4);
+  row3 = int(height/2.66);
+  row4 = int(height/20);
+  row5 = int(height/1.6);
+  row6 = int(height/1.33);
+  row7 = int(height/1.14);
+  row8 = int(height);
   
 }
 
@@ -105,6 +105,35 @@ void scheme(int sch_) {
   c6 = color(14,93,216);
   }
   
+}
+
+//--------------------------------
+void showGrid(){
+  
+  //rows
+  
+  line(0, row1, col8, row1);
+  line(0, row2, col8, row2);
+  line(0, row3, col8, row3);
+  line(0, row4, col8, row4);
+  line(centerX, 0, centerX, row8);
+  line(0, row5, col8, row5);
+  line(0, row6, col8, row6);
+  line(0, row7, col8, row7);
+  line(0, row8, col8, row8);
+
+  
+  //cols 
+  
+  line(col1, 0, col1, row8);
+  line(col2, 0, col2, row8);
+  line(col3, 0, col3, row8);
+  line(col4, 0, col4, row8);
+  line(0, centerY, col8, centerY);
+  line(col5, 0, col5, row8);
+  line(col6, 0, col6, row8);
+  line(col7, 0, col7, row8);
+  line(col8, 0, col8, row8); 
 }
   
 }

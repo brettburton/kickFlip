@@ -65,7 +65,8 @@ boolean finishBool = false;
 void setup(){
 
 //1136×640 iphone screen
-size(640,1136);
+//size(640,1136);
+size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
 
 style = new Style();
