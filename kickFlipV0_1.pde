@@ -5,7 +5,7 @@
 //Dropdown Stuff
 import controlP5.*;
 ControlP5 cp5;
-DropdownList d1, d2;
+DropdownList d1, d2, d3, d4;
 //
   
 Input teamname1;
@@ -85,8 +85,10 @@ smooth();
 
 //DropDown Stuff
 cp5 = new ControlP5(this);
-d1 = cp5.addDropdownList("myList-d1");
-d2 = cp5.addDropdownList("myList-d2");
+d1 = cp5.addDropdownList("trickIn-d1");
+d2 = cp5.addDropdownList("trick-d2");
+d3 = cp5.addDropdownList("trickOut-d3");
+d4 = cp5.addDropdownList("stance-d4");
 //
 
 teamNames = new JSONObject();

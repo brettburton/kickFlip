@@ -3,15 +3,18 @@
 void customize(DropdownList ddl) {
   // a convenience function to customize a DropdownList
   ddl.setBackgroundColor(color(190));
-  ddl.setItemHeight(20);
-  ddl.setBarHeight(15);
+  ddl.setSize(200,200);
+  ddl.setItemHeight(30);//20
+  ddl.setBarHeight(30);//15
 //  ddl.captionLabel().set("dropdown");
   ddl.captionLabel().style().marginTop = 3;
   ddl.captionLabel().style().marginLeft = 3;
   ddl.valueLabel().style().marginTop = 3;
-  for (int i=0;i<40;i++) {
+  
+  for (int i=0;i<40;i++) {  //This is adding items
     ddl.addItem("item "+i, i);
   }
+  
   //ddl.scroll(0);
   ddl.setColorBackground(color(60));
   ddl.setColorActive(color(255, 128));
