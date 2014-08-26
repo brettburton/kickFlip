@@ -18,7 +18,6 @@ int h4;
 int h5;
 int h6;
 
-
 int p;
 
 int centerX;
@@ -41,6 +40,8 @@ int row5;
 int row6;
 int row7;
 int row8;
+
+boolean gridOn = false;
   
 Style() {
   
@@ -85,6 +86,7 @@ Style() {
   
 }
 
+//--------------------------------
 void scheme(int sch_) {
   
   if (sch_ == 1){
@@ -110,30 +112,64 @@ void scheme(int sch_) {
 //--------------------------------
 void showGrid(){
   
+  if (gridOn){
   //rows
+  textSize(height/40);
   
+  textAlign(LEFT, TOP);
+  
+  text("row 1", 0, row1);
   line(0, row1, col8, row1);
+  text("row 2", 0, row2);
   line(0, row2, col8, row2);
+  text("row 3", 0, row3);
   line(0, row3, col8, row3);
+  text("row 4", 0, row4);
   line(0, row4, col8, row4);
-  line(centerX, 0, centerX, row8);
+  text("row 5", 0, row5);
   line(0, row5, col8, row5);
+  text("row 6", 0, row6);
   line(0, row6, col8, row6);
+  text("row 7", 0, row7);
   line(0, row7, col8, row7);
+  text("row 8", 0, row8);
   line(0, row8, col8, row8);
+
 
   
   //cols 
-  
+  textAlign(LEFT, TOP);
+  text("col 1", col1, 0);
   line(col1, 0, col1, row8);
+  text("col 2", col2, 0);
   line(col2, 0, col2, row8);
+  text("col 3", col3, 0);
   line(col3, 0, col3, row8);
+  text("col 4", col4, 0);
   line(col4, 0, col4, row8);
-  line(0, centerY, col8, centerY);
+  text("col 5", col5, 0);
   line(col5, 0, col5, row8);
+  text("col 6", col6, 0);
   line(col6, 0, col6, row8);
+  text("col 7", col7, 0);
   line(col7, 0, col7, row8);
+  text("col 8", col8, 0);
   line(col8, 0, col8, row8); 
+  
+  }
 }
+
+void toggleGrid(){
+  
+      if (keyPressed) {
+        if (key == 'g' || key == 'G') {
+          gridOn = true;
+        }
+    }
+    else gridOn = false;
+    
+ 
+}
+
   
 }

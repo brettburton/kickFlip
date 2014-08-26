@@ -1,7 +1,5 @@
 void refScreen(){
   
-
-
 //TEAM 1
   textSize(style.h1);
   text("Team 1", style.col2, style.row1);
@@ -29,6 +27,13 @@ void refScreen(){
   cop2Button.display(style.col6,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
   cop2Button.update();
   
+  if(sw.running == false){
+  sw.start(); //start the timer
+  }
+  String timer = nf(sw.minute(), 2)+":"+nf(sw.second(), 2);
+  text("TIMER: "+timer, style.centerX, style.row7);
+
+ //-----------------------------------
   
   //TEAM 1 BUTTON LOGIC
    if (hit1Button.pressed && doItOnce1 == false) { 
@@ -80,6 +85,17 @@ void refScreen(){
     doItOnce2 = false;
   }
   
+  
+  if (obstacle1 == 5 && team1Done == false){
+    time1 = timer;
+    team1Done = true;
+  }
+  
+  if (obstacle2 == 5 && team2Done == false){
+    time2 = timer;
+    team2Done = true;
+  }
+  
   //To Cap our obstacles at 5 for the demo
   if (obstacle1 > 5){
     obstacle1 = 5;
@@ -90,19 +106,20 @@ void refScreen(){
   }
 
 //Go to the finish screen when we're done
-if ((obstacle1 > 4) && (obstacle2 > 4)){
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = false;
-    checkBool = false;
-    loginBool = false;
-    team1Bool = false;
-    team2Bool = false;
-    startBool = false;
-    finishBool = true;
-}
+  if ((team1Done) && (team2Done)){
+      secondBool =false;
+      mainBool = false;
+      mapBool = false;
+      skateBool= false; 
+      localBool = false;
+      lesDBool = false;
+      checkBool = false;
+      loginBool = false;
+      loginBool2 = false;
+      team1Bool = false;
+      team2Bool = false;
+      startBool = false;
+      finishBool = true;
+  }
  
 }

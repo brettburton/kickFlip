@@ -1,41 +1,28 @@
-// =================================================================
-// I stole this timer class
-
-
-
-// =================================================
-// classes
-
 class StopWatchTimer {
-  
-  //180000 
-  int startTime = 180000, stopTime = 0;
-  boolean running = false;
-  
-  
+  int startTime = 0, stopTime = 0;
+  boolean running = false; 
   void start() {
-   // startTime = millis();//300
+    startTime = millis();
     running = true;
   }
-  
   void stop() {
     stopTime = millis();
     running = false;
   }
-  
   int getElapsedTime() {
     int elapsed;
-    
     if (running) {
-      //elapsed = (millis() -startTime);  //i switched these
-      elapsed = (startTime - millis()  );
+      elapsed = (millis() - startTime);
     }
-    
     else {
       elapsed = (stopTime - startTime);
     }
     return elapsed;
   }
+
+ int hundrensec(){
+  return (getElapsedTime() / 10) % 100; 
+  } 
   
   int second() {
     return (getElapsedTime() / 1000) % 60;
@@ -46,9 +33,9 @@ class StopWatchTimer {
   int hour() {
     return (getElapsedTime() / (1000*60*60)) % 24;
   }
-   
-  void time() {
   
+  void time() {
+  background(#FFFFFF);
   fill(#000000);
   textAlign(CENTER);
   // textFont(words, 50);
@@ -65,5 +52,3 @@ class StopWatchTimer {
 }
 
 }
-
-

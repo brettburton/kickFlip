@@ -2,11 +2,16 @@
 
 //DECLARE VARIABLES HERE
 
-
+//Dropdown Stuff
+import controlP5.*;
+ControlP5 cp5;
+DropdownList d1, d2;
+//
+  
 Input teamname1;
 Input teamname2;
 
-StopWatchTimer sw; //this is one instance if stopWatch class
+StopWatchTimer sw;
 Style style;
 
 JSONObject teamNames;
@@ -57,9 +62,13 @@ int miss1 = 0;
 int miss2 = 0;
 int cop1 = 0;
 int cop2 = 0;
+String time1; //finish time for team1
+String time2; //finish time for team2
 boolean doItOnce1 = false; //these are so our buttons on the ref page don't turbo fire
 boolean doItOnce2 = false;
 boolean finishBool = false;
+boolean team1Done = false;//we use this to keep track of when team 1 is done;
+boolean team2Done = false;//we use this to keep track of when team 2 is done;
 
 
 
@@ -73,6 +82,12 @@ void setup(){
 //size(640,1136);
 size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
+
+//DropDown Stuff
+cp5 = new ControlP5(this);
+d1 = cp5.addDropdownList("myList-d1");
+d2 = cp5.addDropdownList("myList-d2");
+//
 
 teamNames = new JSONObject();
 
@@ -114,8 +129,6 @@ cop2Button = new button();
 }
 
 
-
-
 //-------------------------------------
 
 //DRAW RUNS REPEATEDLY
@@ -130,36 +143,20 @@ void draw(){
  }
  
   if (secondBool){
-//    localScreen();//For the demo, we skip right to the local map
-    lesScreen();
-//  secondScreen();
+  lesScreen();
  }
- 
-// if (lesDBool){
-//   lesScreen();
-// }
  
  if(checkBool){
   loginScreen();
  }
  
   if(loginBool){
-//  team1Screen(); //skipping the team name enter screens for the time being
   loginScreen2();
  }
  
    if(loginBool2){
-//  team1Screen(); //skipping the team name enter screens for the time being
   obstaclesScreen();
  }
- 
-// if(team1Bool){
-//  team2Screen();
-// }
-// 
-//  if(team2Bool){
-//  obstaclesScreen();
-// }
  
   if(startBool){
   refScreen();
@@ -169,20 +166,10 @@ void draw(){
    finishScreen();
  }
  
-//style.showGrid();
+//uncomment these to show and toggle the style grid
+// style.showGrid();
+// style.toggleGrid();
  
- //Again, for the demo, we skip right to the local map
-//  if (mapBool){
-//  mapScreen();
-// }
- 
-//  if (localBool){
-//localScreen();
-// }
-// 
-  
-  
- // style.showGrid();
 }
 
  //-------------------------------------
@@ -190,11 +177,11 @@ void draw(){
 void keyPressed() {
   
    if(checkBool){
-   teamname1.input();
+   teamname1.input(13);
    }
    
    if(loginBool){
-   teamname2.input();
+   teamname2.input(13);
    }
    
 }

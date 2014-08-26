@@ -3,9 +3,12 @@ class Input{
   
 String typing = "";    // Variable to store text currently being typed
 String saved = "";    // Variable to store saved text when return is hit
+int keyCount = typing.length();
+int buffSize = 25;
 int x = 0;
 int y = 0;
 boolean enter = false;
+
 // input(){
 //   
 // }
@@ -17,15 +20,15 @@ void display(int x_, int y_){
   y = y_;
   
   text(typing,x,y);
-
+  keyCount = typing.length();
   
-//  println(saved);
-//  
 }
 
 
-void input() {
+void input(int buffSize_) {
   
+  buffSize = buffSize_;
+    
     // If the return key is pressed, save the String and clear it
   if (key == '\n' ) {
     saved = typing;
@@ -38,16 +41,12 @@ void input() {
 
     
     //This next part lets us delete mistyped characters
-  if (keyCode == BACKSPACE) {
-    typing = typing.substring(0, typing.length() - 1);
-    } 
-  else
-      if (key != CODED) typing += key; 
-  }
-  
-  
-  
-  
+   if ((keyCode == BACKSPACE) && (keyCount > 0)) {
+        typing = typing.substring(0, typing.length() - 1);
+        } 
+   else
+     if ((key != CODED) && (keyCount < buffSize)) typing += key; 
+      }  
   
   }
 
