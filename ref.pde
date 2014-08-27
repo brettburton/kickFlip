@@ -2,7 +2,7 @@ void refScreen(){
   
 //TEAM 1
   textSize(style.h1);
-  text("Team 1", style.col2, style.row1);
+  text(teamname1.saved, style.col2, style.row1);
   text("Obstacle # " + obstacle1, style.col2, style.row2);
   
   hit1Button.display(style.col2, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
@@ -15,7 +15,7 @@ void refScreen(){
   cop1Button.update();
   
   textSize(style.h1);
-  text("Team 2", style.col6, style.row1);
+  text(teamname2.saved, style.col6, style.row1);
   text("Obstacle # " + obstacle2, style.col6, style.row2);
   
   hit2Button.display(style.col6, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);

@@ -7,6 +7,11 @@ import controlP5.*;
 ControlP5 cp5;
 DropdownList d1, d2, d3, d4;
 //
+
+JSONArray flipIns;
+JSONArray flipOuts;
+JSONArray grinds;
+JSONArray stances;
   
 Input teamname1;
 Input teamname2;
@@ -25,6 +30,7 @@ boolean localBool= false;
 PImage bigmap;
 PImage smallmap;
 PImage leslayout;
+PImage logo;
 
 button mainButton;
 button mapButton; 
@@ -70,7 +76,17 @@ boolean finishBool = false;
 boolean team1Done = false;//we use this to keep track of when team 1 is done;
 boolean team2Done = false;//we use this to keep track of when team 2 is done;
 
+//for DropDowns
+int dropVal;  //store the selection in the drop box
+String dropName;  //store which dropbox
 
+//holds the potential points for each trick
+int[] team1tempPoints = {0,0,0,0};
+int[] team2tempPoints = {0,0,0,0};
+
+//holds the final points for each trick
+int[] team1trickPoints = {0,0,0,0};
+int[] team2trickPoints = {0,0,0,0};
 
 //-------------------------------------
 
@@ -82,6 +98,12 @@ void setup(){
 //size(640,1136);
 size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
+
+
+flipIns = loadJSONArray("flip.json");
+flipOuts = loadJSONArray("flip.json");
+grinds = loadJSONArray("grind.json");  
+stances = loadJSONArray("stance.json");  
 
 //DropDown Stuff
 cp5 = new ControlP5(this);
@@ -99,13 +121,16 @@ teamname2 = new Input();
 style = new Style();
 style.scheme(2);
 
+dropDownSetup();
+
 background(style.c1);
 
 sw = new StopWatchTimer();
 
 bigmap = loadImage("bigmap.jpg");
-smallmap= loadImage("smallmap.jpg");
-leslayout= loadImage("les.jpg");
+smallmap = loadImage("smallmap.jpg");
+leslayout = loadImage("les.jpg");
+logo = loadImage("logo.png");
  
 mainButton = new button(); //the word kickflip
 mapButton = new button(); 

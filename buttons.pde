@@ -59,7 +59,8 @@ void display(int xpos_, int ypos_, int w_, int h_){
   }
  
   //rectMode(CENTER);
-  stroke(0);
+ // stroke(0);
+  noStroke();
   noFill();
   
   xpos = xpos_;
