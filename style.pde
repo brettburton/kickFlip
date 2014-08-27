@@ -87,7 +87,7 @@ Style() {
 }
 
 //--------------------------------
-void scheme(int sch_) {
+public void scheme(int sch_) {
   
   if (sch_ == 1){
   c1 = color(79,87,170);
@@ -110,7 +110,7 @@ void scheme(int sch_) {
 }
 
 //--------------------------------
-void showGrid(){
+public void showGrid(){
   
   if (gridOn){
   //rows
@@ -159,7 +159,7 @@ void showGrid(){
   }
 }
 
-void toggleGrid(){
+public void toggleGrid(){
   
       if (keyPressed) {
         if (key == 'g' || key == 'G') {

@@ -1,5 +1,19 @@
-void finishScreen(){
+public void finishScreen(){
   
+      secondBool =false;
+      mainBool = false;
+      mapBool = false;
+      skateBool= false; 
+      localBool = false;
+      lesDBool = false;
+      checkBool = false;
+      loginBool = false;
+      loginBool2 = false;
+      team1Bool = false;
+      team2Bool = false;
+      refBool = false;
+      readyBool = false;
+      readyBool2 = false;
   
   textSize(style.h2);
   text(teamname1.saved, style.col2, style.row1);

@@ -1,6 +1,6 @@
 
 
-void customize(DropdownList ddl) {
+public void customize(DropdownList ddl) {
   // a convenience function to customize a DropdownList
   ddl.setBackgroundColor(color(190));
   ddl.setSize(200,200);
@@ -18,7 +18,7 @@ void customize(DropdownList ddl) {
 
 //-----------------------------------------------
 
-void controlEvent(ControlEvent theEvent) {
+public void controlEvent(ControlEvent theEvent) {
 
   if (theEvent.isGroup()) {
 
@@ -28,33 +28,29 @@ void controlEvent(ControlEvent theEvent) {
  } 
   
   if(dropName == "trickIn-d1"){
-    JSONObject flipIn = flipIns.getJSONObject(dropVal);
-    team1tempPoints[0] += int(flipIn.getInt("points"));
-    println("flip in");
-    println(team1tempPoints[0]);
+    flipIn = flipIns.getJSONObject(dropVal);
+    componentPoints[0] = int(flipIn.getInt("points"));
   }
   if(dropName == "trick-d2"){
-    JSONObject grind = grinds.getJSONObject(dropVal);
-    team1tempPoints[0] += int(grind.getInt("points"));
-    println("grind");
-    println(team1tempPoints[0]);
+    grind = grinds.getJSONObject(dropVal);
+    componentPoints[1] = int(grind.getInt("points"));
   }
   if(dropName == "trickOut-d3"){
-    JSONObject flipOut = flipOuts.getJSONObject(dropVal);
-    team1tempPoints[0] += int(flipOut.getInt("points"));
-    println("flip out");
+    flipOut = flipOuts.getJSONObject(dropVal);
+    componentPoints[2] = int(flipOut.getInt("points"));
   }
   if(dropName == "stance-d4"){
-    JSONObject stance = stances.getJSONObject(dropVal);
-    team1tempPoints[0] += int(stance.getInt("points"));
-    println("stance");
+    stance = stances.getJSONObject(dropVal);
+    componentPoints[3] = int(stance.getInt("points"));
+//    println("stance");
+//    println(team1tempPoints[0]);
   }
   
   else if (theEvent.isController()) {
-    println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+  //  println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
   }
   
-  println(dropVal);
+ 
   
   
   
@@ -63,13 +59,13 @@ void controlEvent(ControlEvent theEvent) {
 
 //-----------------------------------------------
 
-void dropDownSetup(){
- d1.setPosition(style.col2, style.row2);
+public void dropDownSetup(){
+ d1.setPosition(style.col2, style.row3);
  d1.captionLabel().set("Flip In");
  customize(d1);
   for (int i = 0; i < flipIns.size(); i++) {
     
-     JSONObject flipIn = flipIns.getJSONObject(i);
+     flipIn = flipIns.getJSONObject(i);
      
      int id = flipIn.getInt("id");
      String name = flipIn.getString("name");
@@ -80,12 +76,12 @@ void dropDownSetup(){
      
   }
  
- d2.setPosition(style.col2, style.row3);
+ d2.setPosition(style.col2, style.row4);
  d2.captionLabel().set("Grind");
  customize(d2);
      for (int i = 0; i < grinds.size(); i++) {
     
-     JSONObject grind = grinds.getJSONObject(i);
+     grind = grinds.getJSONObject(i);
      
      int id = grind.getInt("id");
      String name = grind.getString("name");
@@ -94,12 +90,12 @@ void dropDownSetup(){
   }
   
  
- d3.setPosition(style.col2, style.row4);
+ d3.setPosition(style.col2, style.row5);
  d3.captionLabel().set("Flip Out");
  customize(d3);
  for (int i = 0; i < flipOuts.size(); i++) {
     
-     JSONObject flipOut = flipOuts.getJSONObject(i);
+     flipOut = flipOuts.getJSONObject(i);
      
      int id = flipOut.getInt("id");
      String name = flipOut.getString("name");
@@ -107,12 +103,12 @@ void dropDownSetup(){
      d3.addItem(name, i);
  }
  
- d4.setPosition(style.col2, style.row5);
+ d4.setPosition(style.col2, style.row6);
  d4.captionLabel().set("Stance");
  customize(d4);
      for (int i = 0; i < stances.size(); i++) {
     
-     JSONObject stance = stances.getJSONObject(i);
+     stance = stances.getJSONObject(i);
      
      int id = stance.getInt("id");
      String name = stance.getString("name");

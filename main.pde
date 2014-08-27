@@ -1,7 +1,7 @@
 //-------------------------------------
 
 
-void mainScreen(){
+public void mainScreen(){
   
   fill(style.c2);
   //----button---//

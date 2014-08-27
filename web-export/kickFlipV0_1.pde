@@ -2,82 +2,140 @@
 
 //DECLARE VARIABLES HERE
 
+//Dropdown Stuff
+import controlP5.*;
+public ControlP5 cp5;
+public DropdownList d1, d2, d3, d4;
+//
 
+public JSONArray flipIns;
+public JSONArray flipOuts;
+public JSONArray grinds;
+public JSONArray stances;
 
-StopWatchTimer sw; //this is one instance if stopWatch class
-Style style;
+public JSONObject flipIn;
+public JSONObject grind;
+public JSONObject flipOut;
+public JSONObject stance;
+  
+public Input teamname1;
+public Input teamname2;
 
-boolean mainBool = true;
-boolean secondBool = false;
-boolean skateBool = false; //not in demo mode
-boolean mapBool = false; 
-boolean localBool= false;
+public StopWatchTimer sw;
+public Style style;
 
-PImage bigmap;
-PImage smallmap;
-PImage leslayout;
+public JSONObject teamNames;
 
-button mainButton;
-button mapButton; 
-button skateButton; 
-button boroughButton; 
+public boolean mainBool = true;
+public boolean secondBool = false;
+public boolean skateBool = false; //not in demo mode
+public boolean mapBool = false; 
+public boolean localBool= false;
+
+public PImage bigmap;
+public PImage smallmap;
+public PImage leslayout;
+public PImage logo;
+
+public button mainButton;
+public button mapButton; 
+public button skateButton; 
+public button boroughButton; 
 
 
 //the stuff for LES
-boolean lesDBool = false; //for the directions
-boolean checkBool = false; //checkin at the location
-boolean loginBool = false; //login the team names
-boolean team1Bool = false; //team1 players and difficulty selected
-boolean team2Bool = false; //team2 players and difficulty selected
-boolean startBool = false; //start the race!
-button lesDButton; //to get to the direction page
-button checkButton;
-button loginButton;
-button team1Button;
-button team2Button;
-button startButton;
+public boolean lesDBool = false; //for the directions
+public boolean checkBool = false; //checkin at the location
+public boolean loginBool = false; //login team 1's name
+public boolean loginBool2 = false;//login team 2's name
+public boolean team1Bool = false; //team1 players and difficulty selected
+public boolean team2Bool = false; //team2 players and difficulty selected
+public boolean startBool = false; //start the race!
+public button lesDButton; //to get to the direction page
+public button checkButton;
+public button loginButton;
+public button team1Button;
+public button team2Button;
+public button startButton;
 
 //the stuff for the REF screen
-button hit1Button;
-button hit2Button;
-button miss1Button;
-button miss2Button;
-button cop1Button;
-button cop2Button;
-int obstacle1 = 0;
-int obstacle2 = 0;
-int hit1 = 0; //for keeping track of totals for hits, misses and cop outs
-int hit2 = 0;
-int miss1 = 0;
-int miss2 = 0;
-int cop1 = 0;
-int cop2 = 0;
-boolean doItOnce1 = false; //these are so our buttons on the ref page don't turbo fire
-boolean doItOnce2 = false;
-boolean finishBool = false;
+public button hit1Button;
+public button hit2Button;
+public button miss1Button;
+public button miss2Button;
+public button cop1Button;
+public button cop2Button;
+public int obstacle1 = 0;
+public int obstacle2 = 0;
+public int hit1 = 0; //for keeping track of totals for hits, misses and cop outs
+public int hit2 = 0;
+public int miss1 = 0;
+public int miss2 = 0;
+public int cop1 = 0;
+public int cop2 = 0;
+public String time1; //finish time for team1
+public String time2; //finish time for team2
+public boolean doItOnce1 = false; //these are so our buttons on the ref page don't turbo fire
+public boolean doItOnce2 = false;
+public boolean finishBool = false;
+public boolean team1Done = false;//we use this to keep track of when team 1 is done;
+public boolean team2Done = false;//we use this to keep track of when team 2 is done;
 
+//for DropDowns
+public int dropVal;  //store the selection in the drop box
+public String dropName;  //store which dropbox
 
+//holds the potential points for each trick
+public int[] team1tempPoints = {0,0,0,0};// 16?
+public int[] team2tempPoints = {0,0,0,0};
+
+//holds the final points for each trick
+public int[] team1trickPoints = {0,0,0,0}; //16?
+public int[] team2trickPoints = {0,0,0,0};
 
 //-------------------------------------
 
 //SETUP RUNS ONCE
 
-void setup(){
+public void setup(){
 
 //1136×640 iphone screen
-size(640,1136);
+//size(640,1136);
+size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
+
+
+flipIns = loadJSONArray("flip.json");
+flipOuts = loadJSONArray("flip.json");
+grinds = loadJSONArray("grind.json");  
+stances = loadJSONArray("stance.json");  
+
+//DropDown Stuff
+cp5 = new ControlP5(this);
+d1 = cp5.addDropdownList("trickIn-d1");
+d2 = cp5.addDropdownList("trick-d2");
+d3 = cp5.addDropdownList("trickOut-d3");
+d4 = cp5.addDropdownList("stance-d4");
+//
+
+teamNames = new JSONObject();
+
+teamname1 = new Input();
+teamname2 = new Input();
 
 style = new Style();
 style.scheme(2);
+
+dropDownSetup();
 
 background(style.c1);
 
 sw = new StopWatchTimer();
 
 bigmap = loadImage("bigmap.jpg");
-smallmap= loadImage("smallmap.jpg");
-leslayout= loadImage("les.jpg");
+smallmap = loadImage("smallmap.jpg");
+leslayout = loadImage("les.jpg");
+logo = loadImage("logo.png");
  
 mainButton = new button(); //the word kickflip
 mapButton = new button(); 
@@ -103,13 +161,11 @@ cop2Button = new button();
 }
 
 
-
-
 //-------------------------------------
 
 //DRAW RUNS REPEATEDLY
 
-void draw(){
+public void draw(){
   
   background(style.c1);
   fill(style.c2);
@@ -119,31 +175,20 @@ void draw(){
  }
  
   if (secondBool){
-//    localScreen();//For the demo, we skip right to the local map
-    lesScreen();
-//  secondScreen();
+  lesScreen();
  }
- 
-// if (lesDBool){
-//   lesScreen();
-// }
  
  if(checkBool){
   loginScreen();
  }
  
   if(loginBool){
-//  team1Screen(); //skipping the team name enter screens for the time being
-  obstaclesScreen();
+  loginScreen2();
  }
  
-// if(team1Bool){
-//  team2Screen();
-// }
-// 
-//  if(team2Bool){
-//  obstaclesScreen();
-// }
+   if(loginBool2){
+  obstaclesScreen();
+ }
  
   if(startBool){
   refScreen();
@@ -153,39 +198,42 @@ void draw(){
    finishScreen();
  }
  
-
+//uncomment these to show and toggle the style grid
+// style.showGrid();
+// style.toggleGrid();
  
- //Again, for the demo, we skip right to the local map
-//  if (mapBool){
-//  mapScreen();
-// }
- 
-//  if (localBool){
-//localScreen();
-// }
-// 
-  
 }
 
-//-------------------------------------
+ //-------------------------------------
+
+public void keyPressed() {
+  
+   if(checkBool){
+   teamname1.input(13);
+   }
+   
+   if(loginBool){
+   teamname2.input(13);
+   }
+   
+}
 
 
-
-void lesScreen()
+public void lesScreen()
 
 {
   textAlign(CENTER);
   textSize(style.h3);
-  text("L.E.S.", style.centerX, style.row2);
+  text("L.E.S.", style.centerX, style.row1);
   leslayout.resize(width, 0);
-  image(leslayout, 0, style.row3);
+  image(leslayout, 0, style.row2);
 //  fill(0);
 //  text("directions will go here", width/4, height/2);
   
   
                     //xpos, ypos, width, height, text, textSize
   textAlign(CENTER);
-  checkButton.display(style.centerX,style.row8, checkButton.w3,checkButton.ht4,"checkin", style.h3);
+  checkButton.display(style.centerX,style.row6, checkButton.w3,checkButton.ht4,"checkin", style.h3);
   checkButton.update();
   
   if (checkButton.pressed) { //the button that is the bigmap image
@@ -199,18 +247,27 @@ void lesScreen()
   }
   
 }
-void loginScreen(){
+public void loginScreen(){
 
-  //brett will add dropdown
+ stroke(0);//had to add this because we use noStroke in the button class to hide the button outline.
+ //without this our text boxes look weird.
   
  textSize(style.h3);
- text("team 1 name", style.centerX, style.row3);
- text("team 2 name", style.centerX, style.row5);
+ text("Team 1 Name", style.centerX, style.row2);
+ fill(255);
+ rectMode(CENTER);
+ rect(style.centerX, style.row3, loginButton.w5, loginButton.ht4);
+ fill(0);
+ textAlign(CENTER, CENTER);
+ teamname1.display(style.centerX, style.row3);
  
-  loginButton.display(style.centerX, style.row7, loginButton.w3, loginButton.ht4, "enter", style.h3);
-  loginButton.update();
-  
-   if (loginButton.pressed) { //the button that is the bigmap image
+ //JSON SAVE STUFF
+ teamNames.setString("Name1", teamname1.saved);
+ saveJSONObject(teamNames, "data/teamNames.json");
+
+
+ 
+ if (teamname1.enter){
     secondBool =false;
     mainBool = false;
     mapBool = false;
@@ -219,14 +276,45 @@ void loginScreen(){
     lesDBool = false;
     checkBool = false;
     loginBool = true;
-  }
+ }
+
+ 
  
 }
 
+public void loginScreen2(){
+
+  //brett will add dropdown
+  
+ textSize(style.h3);
+ text("Team 2 Name", style.centerX, style.row2);
+ fill(255);
+ rectMode(CENTER);
+ rect(style.centerX, style.row3, loginButton.w5, loginButton.ht4);
+ fill(0);
+ textAlign(CENTER, CENTER);
+ teamname2.display(style.centerX, style.row3);
+
+
+ //JSON SAVE STUFF
+ teamNames.setString("Name2", teamname2.saved);
+ saveJSONObject(teamNames, "data/teamNames.json");
+
+ if (teamname2.enter){
+    secondBool =false;
+    mainBool = false;
+    mapBool = false;
+    skateBool= false; 
+    localBool = false;
+    lesDBool = false;
+    checkBool = false;
+    loginBool = false;
+    loginBool2 = true;
+ }
+}
 
 //-------------------------------------
-
-class button{
+ class button{
 
   int xpos;
   int ypos;
@@ -284,7 +372,8 @@ void display(int xpos_, int ypos_, int w_, int h_){
   }
  
   //rectMode(CENTER);
-  stroke(0);
+ // stroke(0);
+  noStroke();
   noFill();
   
   xpos = xpos_;
@@ -352,25 +441,212 @@ void update(){
 
 
 
+
+
+public void customize(DropdownList ddl) {
+  // a convenience function to customize a DropdownList
+  ddl.setBackgroundColor(color(190));
+  ddl.setSize(200,200);
+  ddl.setItemHeight(30);//20
+  ddl.setBarHeight(30);//15
+//  ddl.captionLabel().set("dropdown");
+  ddl.captionLabel().style().marginTop = 3;
+  ddl.captionLabel().style().marginLeft = 3;
+  ddl.valueLabel().style().marginTop = 3;
+  
+  //ddl.scroll(0);
+  ddl.setColorBackground(color(60));
+  ddl.setColorActive(color(255, 128));
+}
+
+//-----------------------------------------------
+
+public void controlEvent(ControlEvent theEvent) {
+
+  if (theEvent.isGroup()) {
+
+    dropName = theEvent.getGroup().getName();
+    dropVal = int(theEvent.getGroup().getValue());
+    
+ } 
+  
+  if(dropName == "trickIn-d1"){
+    flipIn = flipIns.getJSONObject(dropVal);
+    team1tempPoints[0] += int(flipIn.getInt("points"));
+    println("flip in");
+    println(team1tempPoints[0]);
+  }
+  if(dropName == "trick-d2"){
+    grind = grinds.getJSONObject(dropVal);
+    team1tempPoints[0] += int(grind.getInt("points"));
+    println("grind");
+    println(team1tempPoints[0]);
+  }
+  if(dropName == "trickOut-d3"){
+    flipOut = flipOuts.getJSONObject(dropVal);
+    team1tempPoints[0] += int(flipOut.getInt("points"));
+    println("flip out");
+  }
+  if(dropName == "stance-d4"){
+    stance = stances.getJSONObject(dropVal);
+    team1tempPoints[0] += int(stance.getInt("points"));
+    println("stance");
+    println(team1tempPoints[0]);
+  }
+  
+  else if (theEvent.isController()) {
+    println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+  }
+  
+ 
+  
+  
+  
+}
+
+
+//-----------------------------------------------
+
+public void dropDownSetup(){
+ d1.setPosition(style.col2, style.row2);
+ d1.captionLabel().set("Flip In");
+ customize(d1);
+  for (int i = 0; i < flipIns.size(); i++) {
+    
+     flipIn = flipIns.getJSONObject(i);
+     
+     int id = flipIn.getInt("id");
+     String name = flipIn.getString("name");
+     int points = flipIn.getInt("points");
+     d1.addItem(name, i);
+     
+   //  println(id + ", " + name + ", " + points);
+     
+  }
+ 
+ d2.setPosition(style.col2, style.row3);
+ d2.captionLabel().set("Grind");
+ customize(d2);
+     for (int i = 0; i < grinds.size(); i++) {
+    
+     grind = grinds.getJSONObject(i);
+     
+     int id = grind.getInt("id");
+     String name = grind.getString("name");
+     int points = grind.getInt("points");
+     d2.addItem(name, i);
+  }
+  
+ 
+ d3.setPosition(style.col2, style.row4);
+ d3.captionLabel().set("Flip Out");
+ customize(d3);
+ for (int i = 0; i < flipOuts.size(); i++) {
+    
+     flipOut = flipOuts.getJSONObject(i);
+     
+     int id = flipOut.getInt("id");
+     String name = flipOut.getString("name");
+     int points = flipOut.getInt("points");
+     d3.addItem(name, i);
+ }
+ 
+ d4.setPosition(style.col2, style.row5);
+ d4.captionLabel().set("Stance");
+ customize(d4);
+     for (int i = 0; i < stances.size(); i++) {
+    
+     stance = stances.getJSONObject(i);
+     
+     int id = stance.getInt("id");
+     String name = stance.getString("name");
+     int points = stance.getInt("points");
+     d4.addItem(name, i);
+     }
+  
+  d1.hide();
+  d2.hide();
+  d3.hide();
+  d4.hide();  
+     
+} 
+
+class Input{
+  
+String typing = "";    // Variable to store text currently being typed
+String saved = "";    // Variable to store saved text when return is hit
+int keyCount = typing.length();
+int buffSize = 25;
+int x = 0;
+int y = 0;
+boolean enter = false;
+
+// input(){
+//   
+// }
+  
+void display(int x_, int y_){
+  
+  // Display everything
+  x = x_;
+  y = y_;
+  
+  text(typing,x,y);
+  keyCount = typing.length();
+  
+}
+
+
+void input(int buffSize_) {
+  
+  buffSize = buffSize_;
+    
+    // If the return key is pressed, save the String and clear it
+  if (key == '\n' ) {
+    saved = typing;
+    enter = true;
+    // A String can be cleared by setting it equal to ""
+    typing = ""; 
+  } else {
+    // Otherwise, concatenate the String
+    // Each character typed by the user is added to the end of the String variable.
+
+    
+    //This next part lets us delete mistyped characters
+   if ((keyCode == BACKSPACE) && (keyCount > 0)) {
+        typing = typing.substring(0, typing.length() - 1);
+        } 
+   else
+     if ((key != CODED) && (keyCount < buffSize)) typing += key; 
+      }  
+  
+  }
+
+}
 //-------------------------------------
 
 
-void mainScreen(){
+public void mainScreen(){
   
   fill(style.c2);
   //----button---//
   textAlign(CENTER, CENTER);
   //rectMode(CENTER);
 //  mainButton.display(style.centerX, style.row2, mainButton.w6,mainButton.ht6);
-  mainButton.display(style.centerX, style.row2, mainButton.w6,mainButton.ht6, "kickflip", style.h6);
+
+  //mainButton.display(style.centerX, style.row2, mainButton.w6, mainButton.ht6, "RELAY RUSH", style.h5);
+  mainButton.display(style.centerX, style.row1, width, height);
   mainButton.update();
+  
+  logo.resize(width, 0);
+  image(logo, 0, style.row1);
   //---button---//
  
  //text("word", 10, 60);
 
  textSize(style.p);
  textAlign(CENTER);
- text("RULES: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style.col1, style.row4, style.col6, style.row4 ); //write rules here
+ text("RULES: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style.col1, style.row6, style.col6, style.row6 ); //write rules here
   
   if (mainButton.pressed) { 
     secondBool =true;
@@ -378,46 +654,22 @@ void mainScreen(){
 }
 
 }
-//-------------------------------------
+public void obstaclesScreen(){
 
-void mapScreen()
-{
-  boroughButton.display(0,0, width,height);
-  boroughButton.update();
-  background(80,80,80);
-  image(bigmap, 0, 0);
- 
-   if (boroughButton.pressed) { //the button that is the bigmap image
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = true;
-  }
+// dropDraw();
   
-}
-  
- 
+// fillJSON();
 
-void obstaclesScreen(){
-
-  //brett will add dropdown
-  
-
- 
  textSize(style.h3);
- text("Team 1", style.col2, style.row2);
- textSize(style.p);
- text("Order of course obstacles", style.col2, style.row3);
- text("Trick Dropdown goes here", style.col2, style.row4);
+ text("Trick Number 1", style.centerX, style.row1);
  
- textSize(style.h3);
- text("Team 2", style.col6, style.row2);
- textSize(style.p);
- text("Order of course obstacles", style.col6, style.row3);
- text("Trick Dropdown goes here", style.col6, style.row4);
+ d1.show();
+ d2.show();
+ d3.show();
+ d4.show();
  
-  startButton.display(style.centerX, style.row6, startButton.w3,startButton.ht2,"Skate!", style.h3);
+ 
+  startButton.display(style.centerX, style.row7, startButton.w3,startButton.ht2,"Skate!", style.h3);
   startButton.update();
   
    if (startButton.pressed) { //the button that is the bigmap image
@@ -429,41 +681,82 @@ void obstaclesScreen(){
     lesDBool = false;
     checkBool = false;
     loginBool = false;
+    loginBool2 = false;
     team1Bool = false;
     team2Bool = false;
     startBool = true;
+    d1.remove(); //this removes our dropdowns
+    d2.remove();
+    d3.remove();
+    d4.remove();
   }
+  
+  //-----------------------
+ // SHOWING AND HIDING DROPDOWNS
+ 
+ //d1
+ if (d1.isOpen()){
+   d2.hide();
+   d3.hide();
+   d4.hide();
+ }
+ 
+ //d2
+ if (d2.isOpen()){
+   d3.hide();
+   d4.hide();
+ }
+ 
+ //d3
+ if (d3.isOpen()){
+   d4.hide();
+ }
+ 
+ 
+ if (d1.isOpen() == false && d2.isOpen() == false && d3.isOpen() == false && d4.isOpen() == false){
+   d1.show();
+   d2.show();
+   d3.show();
+   d4.show();
+ }
  
 }
-void refScreen(){
+public void refScreen(){
   
-
-
 //TEAM 1
   textSize(style.h1);
-  text("Team 1", style.col2, style.row1);
+  text(teamname1.saved, style.col2, style.row1);
   text("Obstacle # " + obstacle1, style.col2, style.row2);
+  
   hit1Button.display(style.col2, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
   hit1Button.update();
   
-  miss1Button.display(style.col2,style.row6, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
+  miss1Button.display(style.col2,style.row5, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
   miss1Button.update();
 
-  cop1Button.display(style.col2,style.row8, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
+  cop1Button.display(style.col2,style.row6, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
   cop1Button.update();
   
   textSize(style.h1);
-  text("Team 2", style.col6, style.row1);
+  text(teamname2.saved, style.col6, style.row1);
   text("Obstacle # " + obstacle2, style.col6, style.row2);
+  
   hit2Button.display(style.col6, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);
   hit2Button.update();
   
-  miss2Button.display(style.col6,style.row6, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
+  miss2Button.display(style.col6,style.row5, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
   miss2Button.update();
 
-  cop2Button.display(style.col6,style.row8, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
+  cop2Button.display(style.col6,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
   cop2Button.update();
   
+  if(sw.running == false){
+  sw.start(); //start the timer
+  }
+  String timer = nf(sw.minute(), 2)+":"+nf(sw.second(), 2);
+  text("TIMER: "+timer, style.centerX, style.row7);
+
+ //-----------------------------------
   
   //TEAM 1 BUTTON LOGIC
    if (hit1Button.pressed && doItOnce1 == false) { 
@@ -515,6 +808,17 @@ void refScreen(){
     doItOnce2 = false;
   }
   
+  
+  if (obstacle1 == 5 && team1Done == false){
+    time1 = timer;
+    team1Done = true;
+  }
+  
+  if (obstacle2 == 5 && team2Done == false){
+    time2 = timer;
+    team2Done = true;
+  }
+  
   //To Cap our obstacles at 5 for the demo
   if (obstacle1 > 5){
     obstacle1 = 5;
@@ -525,99 +829,42 @@ void refScreen(){
   }
 
 //Go to the finish screen when we're done
-if ((obstacle1 > 4) && (obstacle2 > 4)){
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = false;
-    checkBool = false;
-    loginBool = false;
-    team1Bool = false;
-    team2Bool = false;
-    startBool = false;
-    finishBool = true;
-}
+  if ((team1Done) && (team2Done)){
+      secondBool =false;
+      mainBool = false;
+      mapBool = false;
+      skateBool= false; 
+      localBool = false;
+      lesDBool = false;
+      checkBool = false;
+      loginBool = false;
+      loginBool2 = false;
+      team1Bool = false;
+      team2Bool = false;
+      startBool = false;
+      finishBool = true;
+  }
  
 }
-void finishScreen(){
+public void finishScreen(){
   
   
   textSize(style.h2);
-  text("Team 1", style.col2, style.row1);
-  text("Hits " + hit1, style.col2, style.row3);
-  text("Misses " + miss1, style.col2, style.row4);
-  text("Cop Outs " + cop1, style.col2, style.row5);
+  text(teamname1.saved, style.col2, style.row1);
+  text("Time " + time1, style.col2, style.row3);
+  text("Hits " + hit1, style.col2, style.row4);
+  text("Misses " + miss1, style.col2, style.row5);
+  text("Cop Outs " + cop1, style.col2, style.row6);
   
   
-  text("Team 2", style.col6, style.row1);
-  text("Hits " + hit2, style.col6, style.row3);
-  text("Misses " + miss2, style.col6, style.row4);
-  text("Cop Outs " + cop2, style.col6, style.row5);
+  text(teamname2.saved, style.col6, style.row1);
+  text("Time " + time2, style.col6, style.row3);
+  text("Hits " + hit2, style.col6, style.row4);
+  text("Misses " + miss2, style.col6, style.row5);
+  text("Cop Outs " + cop2, style.col6, style.row6);
   
   
 }
-//-------------------------------------
-
-void secondScreen()
-
-{
-
-  
-  //---skate button--//
-//  skateButton.display(width/2-30,height/2-30, 90,30, "Skate", 32);
-//  skateButton.update();
-  
-  
-  //---map button--//
-  
-  mapButton.display(width/2-25,height/2-100, 90,30, "Map", 32);
-  mapButton.update();
-  
-  
-  
-  
- 
-  
-   if (skateButton.pressed) { //the button that says skate
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= true; 
-  }
-  
-   if (mapButton.pressed) { //the button that says map
-    secondBool =false;
-    mainBool = false;
-    skateBool= false; 
-    mapBool = true; 
-}
-}
-void localScreen()
-
-{
-
-  smallmap.resize(width, height);
-  lesDButton.display(700, 650, 30,30);
-  lesDButton.update();
-  image(smallmap, 0, 0);
- 
-
-
- 
-   if (lesDButton.pressed) { //the button that is the bigmap image
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = true;
-  }
-}
-
-
-
 
 
 
@@ -637,7 +884,6 @@ int h3;
 int h4;
 int h5;
 int h6;
-
 
 int p;
 
@@ -661,6 +907,8 @@ int row5;
 int row6;
 int row7;
 int row8;
+
+boolean gridOn = false;
   
 Style() {
   
@@ -694,18 +942,19 @@ Style() {
   col7 = int(width/1.14);
   col8 = int(width);
   
-  row1 = int(width/8);
-  row2 = int(width/4);
-  row3 = int(width/2.66);
-  row4 = int(width/2);
-  row5 = int(width/1.6);
-  row6 = int(width/1.33);
-  row7 = int(width/1.14);
-  row8 = int(width);
+  row1 = int(height/8);
+  row2 = int(height/4);
+  row3 = int(height/2.66);
+  row4 = int(height/2);
+  row5 = int(height/1.6);
+  row6 = int(height/1.33);
+  row7 = int(height/1.14);
+  row8 = int(height);
   
 }
 
-void scheme(int sch_) {
+//--------------------------------
+public void scheme(int sch_) {
   
   if (sch_ == 1){
   c1 = color(79,87,170);
@@ -726,98 +975,96 @@ void scheme(int sch_) {
   }
   
 }
+
+//--------------------------------
+public void showGrid(){
   
-}
-void team1Screen(){
+  if (gridOn){
+  //rows
+  textSize(height/40);
+  
+  textAlign(LEFT, TOP);
+  
+  text("row 1", 0, row1);
+  line(0, row1, col8, row1);
+  text("row 2", 0, row2);
+  line(0, row2, col8, row2);
+  text("row 3", 0, row3);
+  line(0, row3, col8, row3);
+  text("row 4", 0, row4);
+  line(0, row4, col8, row4);
+  text("row 5", 0, row5);
+  line(0, row5, col8, row5);
+  text("row 6", 0, row6);
+  line(0, row6, col8, row6);
+  text("row 7", 0, row7);
+  line(0, row7, col8, row7);
+  text("row 8", 0, row8);
+  line(0, row8, col8, row8);
 
 
   
-
- text("Team 1", width/2, height/2-150);
- text("Select Skaters", width/2, height/2 - 100);
- text("Select Difficulty", width/2, height/ 2 - 200);
- 
- 
-  team1Button.display(width/2, height/2, 200,100,"enter", 30);
-  team1Button.update();
+  //cols 
+  textAlign(LEFT, TOP);
+  text("col 1", col1, 0);
+  line(col1, 0, col1, row8);
+  text("col 2", col2, 0);
+  line(col2, 0, col2, row8);
+  text("col 3", col3, 0);
+  line(col3, 0, col3, row8);
+  text("col 4", col4, 0);
+  line(col4, 0, col4, row8);
+  text("col 5", col5, 0);
+  line(col5, 0, col5, row8);
+  text("col 6", col6, 0);
+  line(col6, 0, col6, row8);
+  text("col 7", col7, 0);
+  line(col7, 0, col7, row8);
+  text("col 8", col8, 0);
+  line(col8, 0, col8, row8); 
   
-   if (team1Button.pressed) { //the button that is the bigmap image
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = false;
-    checkBool = false;
-    loginBool = false;
-    team1Bool = true;
   }
- 
 }
-void team2Screen(){
 
-
-
- text("Team 2", width/2, height/2-150);
- text("Select Skaters", width/2, height/2 - 100);
- text("Select Difficulty", width/2, height/ 2 - 200);
- 
- 
-  team2Button.display(width/2, height/2, 200,100,"enter", 30);
-  team2Button.update();
+public void toggleGrid(){
   
-   if (team2Button.pressed) { //the button that is the bigmap image
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = false;
-    checkBool = false;
-    loginBool = false;
-    team1Bool = false;
-    team2Bool = true;
-  }
+      if (keyPressed) {
+        if (key == 'g' || key == 'G') {
+          gridOn = true;
+        }
+    }
+    else gridOn = false;
+    
  
 }
-// =================================================================
-// I stole this timer class
 
-
-
-// =================================================
-// classes
-
+  
+}
 class StopWatchTimer {
-  
-  //180000 
-  int startTime = 180000, stopTime = 0;
-  boolean running = false;
-  
-  
+  int startTime = 0, stopTime = 0;
+  boolean running = false; 
   void start() {
-   // startTime = millis();//300
+    startTime = millis();
     running = true;
   }
-  
-  void stop() {
+public void stop() {
     stopTime = millis();
     running = false;
   }
-  
   int getElapsedTime() {
     int elapsed;
-    
     if (running) {
-      //elapsed = (millis() -startTime);  //i switched these
-      elapsed = (startTime - millis()  );
+      elapsed = (millis() - startTime);
     }
-    
     else {
       elapsed = (stopTime - startTime);
     }
     return elapsed;
   }
+
+ int hundrensec(){
+  return (getElapsedTime() / 10) % 100; 
+  } 
   
   int second() {
     return (getElapsedTime() / 1000) % 60;
@@ -828,9 +1075,9 @@ class StopWatchTimer {
   int hour() {
     return (getElapsedTime() / (1000*60*60)) % 24;
   }
-   
-  void time() {
   
+ public void time() {
+  background(#FFFFFF);
   fill(#000000);
   textAlign(CENTER);
   // textFont(words, 50);
@@ -847,6 +1094,4 @@ class StopWatchTimer {
 }
 
 }
-
-
 

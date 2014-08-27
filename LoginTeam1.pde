@@ -1,4 +1,4 @@
-void loginScreen(){
+public void loginScreen(){
 
  stroke(0);//had to add this because we use noStroke in the button class to hide the button outline.
  //without this our text boxes look weird.

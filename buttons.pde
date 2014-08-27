@@ -1,7 +1,6 @@
 
 //-------------------------------------
-
-class button{
+ class button{
 
   int xpos;
   int ypos;
