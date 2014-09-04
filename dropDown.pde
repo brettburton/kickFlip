@@ -50,10 +50,13 @@ public void controlEvent(ControlEvent theEvent) {
   //  println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
   }
   
- 
-  
-  
-  
+}
+
+//-----------------------------------------------
+public void resetDrop(){
+  for (int i=0; i < 4; i++){
+    componentPoints[i] = 0;
+  }
 }
 
 

@@ -17,6 +17,14 @@ public void finishScreen(){
   
   textSize(style.h2);
   text(teamname1.saved, style.col2, style.row1);
+  if (total1Once == false){
+    for (int i=0; i<4; i++){
+      totalScore1 += team1trickPoints[i];
+    }
+  total1Once = true;
+  }
+  
+  text("Score " + totalScore1, style.col2, style.row2);
   text("Time " + time1, style.col2, style.row3);
   text("Hits " + hit1, style.col2, style.row4);
   text("Misses " + miss1, style.col2, style.row5);
@@ -24,6 +32,14 @@ public void finishScreen(){
   
   
   text(teamname2.saved, style.col6, style.row1);
+    if (total2Once == false){
+    for (int i=0; i<4; i++){
+      totalScore2 += team2trickPoints[i];
+    }
+  total2Once = true;
+  }
+  
+  text("Score " + totalScore2, style.col6, style.row2);
   text("Time " + time2, style.col6, style.row3);
   text("Hits " + hit2, style.col6, style.row4);
   text("Misses " + miss2, style.col6, style.row5);

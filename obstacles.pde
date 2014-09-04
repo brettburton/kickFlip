@@ -42,13 +42,25 @@ if (team1or2 == true){
   
    if (enterButton.pressed && doItOnce == false) { //the button that is the bigmap image
     if (team1or2 == true){
-      trickNum += 1;
+     //the stupid -1 math here is because trickNum starts at 1 for display purposes
+     team2tempPoints[trickNum-1] = componentPoints[0] + componentPoints[1] + componentPoints[2] + componentPoints[3];
+//     print ("team 2 trick #" + trickNum + ": ");
+//     println(team2tempPoints[trickNum-1]);
+     resetDrop();
+     trickNum += 1;
     }
-    team1tempPoints[0] = componentPoints[0] + componentPoints[1] + componentPoints[2] + componentPoints[3];
-    println(team1tempPoints[0]);
+    if (team1or2 == false){
+     team1tempPoints[trickNum-1] = componentPoints[0] + componentPoints[1] + componentPoints[2] + componentPoints[3];
+//     print ("team 1 trick #" + trickNum + ": ");
+//     println(team1tempPoints[trickNum-1]);
+     resetDrop();
+    }
+    //if false team 1 if true team 2 
+    
+    
     team1or2 = !team1or2;
     doItOnce = true;
-    println (team1or2);
+//    println (team1or2);
     
     if (trickNum == 5){
      team1or2 = false;

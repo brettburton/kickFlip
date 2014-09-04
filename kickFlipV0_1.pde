@@ -98,11 +98,16 @@ public String dropName;  //store which dropbox
 public int[] team1tempPoints = {0,0,0,0};// 16?
 public int[] team2tempPoints = {0,0,0,0};
 
-
 //holds the final points for each trick
 public int[] team1trickPoints = {0,0,0,0}; //16?
 public int[] team2trickPoints = {0,0,0,0};
 public int[] componentPoints = {0,0,0,0}; //this is for each part of each trick In, grind, out and stance
+
+public boolean total1Once = false; //so we only add our total up one time
+public boolean total2Once = false;
+
+public int totalScore1 = 0;
+public int totalScore2 = 0;
 
 public int trickNum = 1;//which trick are we entering
 //-------------------------------------

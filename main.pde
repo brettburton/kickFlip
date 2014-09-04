@@ -21,6 +21,7 @@ public void mainScreen(){
 
  textSize(style.p);
  textAlign(CENTER);
+ 
  text("RULES: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style.col1, style.row6, style.col6, style.row6 ); //write rules here
   
   if (mainButton.pressed) { 

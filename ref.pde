@@ -56,6 +56,8 @@ public void refScreen(){
     //TEAM 1 BUTTON LOGIC
    if (hit1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
+      team1trickPoints[obstacle1-1]=team1tempPoints[obstacle1-1];  //the stupid -1 math here is because obstacle1 starts at 1 for display purposes
+      println (team1tempPoints[obstacle1-1]);
       obstacle1+=1;
       hit1+=1;
 //      println(obstacle1);
@@ -63,6 +65,8 @@ public void refScreen(){
   
    if (cop1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
+      team1trickPoints[obstacle1-1]+=40;
+      println (team1tempPoints[obstacle1-1]);
       obstacle1+=1;
       cop1+=1;
 //      println(obstacle1);
@@ -70,6 +74,8 @@ public void refScreen(){
   
   if (miss1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
+      team1trickPoints[obstacle1-1]-=10;
+      println (team1tempPoints[obstacle1-1]);
       miss1+=1;
 //      println("miss");
   }
@@ -125,6 +131,8 @@ public void refScreen(){
     //TEAM 1 BUTTON LOGIC
    if (hit2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
+      team2trickPoints[obstacle2-1]=team2tempPoints[obstacle2-1];  //the stupid -1 math here is because obstacle2 starts at 1 for display purposes
+      println (team2tempPoints[obstacle2-1]);
       obstacle2+=1;
       hit2+=1;
 //      println(obstacle1);
@@ -132,6 +140,8 @@ public void refScreen(){
   
    if (cop2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
+      team2trickPoints[obstacle2-1]+=40;
+      println (team2tempPoints[obstacle2-1]);
       obstacle2+=1;
       cop2+=1;
 //      println(obstacle1);
@@ -139,6 +149,8 @@ public void refScreen(){
   
   if (miss2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
+      team2trickPoints[obstacle2-1]-=10;
+      println (team2tempPoints[obstacle2-1]);
       miss2+=1;
 //      println("miss");
   }

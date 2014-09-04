@@ -30,7 +30,9 @@ public boolean mainBool = true;
 public boolean secondBool = false;
 public boolean skateBool = false; //not in demo mode
 public boolean mapBool = false; 
-public boolean localBool= false;
+public boolean localBool = false;
+public boolean readyBool = false; 
+public boolean readyBool2 = false; 
 
 public PImage bigmap;
 public PImage smallmap;
@@ -38,6 +40,8 @@ public PImage leslayout;
 public PImage logo;
 
 public button mainButton;
+public button readyButton1;
+public button readyButton2;
 public button mapButton; 
 public button skateButton; 
 public button boroughButton; 
@@ -50,13 +54,16 @@ public boolean loginBool = false; //login team 1's name
 public boolean loginBool2 = false;//login team 2's name
 public boolean team1Bool = false; //team1 players and difficulty selected
 public boolean team2Bool = false; //team2 players and difficulty selected
-public boolean startBool = false; //start the race!
+public boolean refBool = false; //start the race!
+
+
+
 public button lesDButton; //to get to the direction page
 public button checkButton;
 public button loginButton;
 public button team1Button;
 public button team2Button;
-public button startButton;
+public button enterButton; //enter the tricks
 
 //the stuff for the REF screen
 public button hit1Button;
@@ -65,8 +72,8 @@ public button miss1Button;
 public button miss2Button;
 public button cop1Button;
 public button cop2Button;
-public int obstacle1 = 0;
-public int obstacle2 = 0;
+public int obstacle1 = 1;
+public int obstacle2 = 1;
 public int hit1 = 0; //for keeping track of totals for hits, misses and cop outs
 public int hit2 = 0;
 public int miss1 = 0;
@@ -75,11 +82,13 @@ public int cop1 = 0;
 public int cop2 = 0;
 public String time1; //finish time for team1
 public String time2; //finish time for team2
+public boolean doItOnce = false;
 public boolean doItOnce1 = false; //these are so our buttons on the ref page don't turbo fire
 public boolean doItOnce2 = false;
 public boolean finishBool = false;
 public boolean team1Done = false;//we use this to keep track of when team 1 is done;
 public boolean team2Done = false;//we use this to keep track of when team 2 is done;
+public boolean team1or2 = false; //if false team 1 if true team 2 
 
 //for DropDowns
 public int dropVal;  //store the selection in the drop box
@@ -89,10 +98,13 @@ public String dropName;  //store which dropbox
 public int[] team1tempPoints = {0,0,0,0};// 16?
 public int[] team2tempPoints = {0,0,0,0};
 
+
 //holds the final points for each trick
 public int[] team1trickPoints = {0,0,0,0}; //16?
 public int[] team2trickPoints = {0,0,0,0};
+public int[] componentPoints = {0,0,0,0}; //this is for each part of each trick In, grind, out and stance
 
+public int trickNum = 1;//which trick are we entering
 //-------------------------------------
 
 //SETUP RUNS ONCE
@@ -142,13 +154,15 @@ mapButton = new button();
 skateButton = new button(); 
 boroughButton = new button();
 checkButton = new button();
+readyButton1 = new button();
+readyButton2 = new button();
 
 //LES stuff
 lesDButton = new button();
 loginButton = new button();
 team1Button = new button();
 team2Button = new button();
-startButton =new button();
+enterButton = new button();
 
 //REF stuff
 hit1Button = new button();
@@ -190,8 +204,16 @@ public void draw(){
   obstaclesScreen();
  }
  
-  if(startBool){
+ if(readyBool){
+  readyScreen();
+ }
+ 
+ if (refBool){
   refScreen();
+ }
+ 
+ if(readyBool2){
+   readyScreen2();
  }
  
  if(finishBool){
@@ -472,30 +494,25 @@ public void controlEvent(ControlEvent theEvent) {
   
   if(dropName == "trickIn-d1"){
     flipIn = flipIns.getJSONObject(dropVal);
-    team1tempPoints[0] += int(flipIn.getInt("points"));
-    println("flip in");
-    println(team1tempPoints[0]);
+    componentPoints[0] = int(flipIn.getInt("points"));
   }
   if(dropName == "trick-d2"){
     grind = grinds.getJSONObject(dropVal);
-    team1tempPoints[0] += int(grind.getInt("points"));
-    println("grind");
-    println(team1tempPoints[0]);
+    componentPoints[1] = int(grind.getInt("points"));
   }
   if(dropName == "trickOut-d3"){
     flipOut = flipOuts.getJSONObject(dropVal);
-    team1tempPoints[0] += int(flipOut.getInt("points"));
-    println("flip out");
+    componentPoints[2] = int(flipOut.getInt("points"));
   }
   if(dropName == "stance-d4"){
     stance = stances.getJSONObject(dropVal);
-    team1tempPoints[0] += int(stance.getInt("points"));
-    println("stance");
-    println(team1tempPoints[0]);
+    componentPoints[3] = int(stance.getInt("points"));
+//    println("stance");
+//    println(team1tempPoints[0]);
   }
   
   else if (theEvent.isController()) {
-    println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+  //  println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
   }
   
  
@@ -508,7 +525,7 @@ public void controlEvent(ControlEvent theEvent) {
 //-----------------------------------------------
 
 public void dropDownSetup(){
- d1.setPosition(style.col2, style.row2);
+ d1.setPosition(style.col2, style.row3);
  d1.captionLabel().set("Flip In");
  customize(d1);
   for (int i = 0; i < flipIns.size(); i++) {
@@ -524,7 +541,7 @@ public void dropDownSetup(){
      
   }
  
- d2.setPosition(style.col2, style.row3);
+ d2.setPosition(style.col2, style.row4);
  d2.captionLabel().set("Grind");
  customize(d2);
      for (int i = 0; i < grinds.size(); i++) {
@@ -538,7 +555,7 @@ public void dropDownSetup(){
   }
   
  
- d3.setPosition(style.col2, style.row4);
+ d3.setPosition(style.col2, style.row5);
  d3.captionLabel().set("Flip Out");
  customize(d3);
  for (int i = 0; i < flipOuts.size(); i++) {
@@ -551,7 +568,7 @@ public void dropDownSetup(){
      d3.addItem(name, i);
  }
  
- d4.setPosition(style.col2, style.row5);
+ d4.setPosition(style.col2, style.row6);
  d4.captionLabel().set("Stance");
  customize(d4);
      for (int i = 0; i < stances.size(); i++) {
@@ -646,6 +663,7 @@ public void mainScreen(){
 
  textSize(style.p);
  textAlign(CENTER);
+ 
  text("RULES: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style.col1, style.row6, style.col6, style.row6 ); //write rules here
   
   if (mainButton.pressed) { 
@@ -660,20 +678,7 @@ public void obstaclesScreen(){
   
 // fillJSON();
 
- textSize(style.h3);
- text("Trick Number 1", style.centerX, style.row1);
- 
- d1.show();
- d2.show();
- d3.show();
- d4.show();
- 
- 
-  startButton.display(style.centerX, style.row7, startButton.w3,startButton.ht2,"Skate!", style.h3);
-  startButton.update();
-  
-   if (startButton.pressed) { //the button that is the bigmap image
-    secondBool =false;
+   secondBool =false;
     mainBool = false;
     mapBool = false;
     skateBool= false; 
@@ -681,15 +686,57 @@ public void obstaclesScreen(){
     lesDBool = false;
     checkBool = false;
     loginBool = false;
-    loginBool2 = false;
+//    loginBool2 = false;
     team1Bool = false;
     team2Bool = false;
-    startBool = true;
-    d1.remove(); //this removes our dropdowns
-    d2.remove();
-    d3.remove();
-    d4.remove();
+   // startBool = true;
+ 
+
+ textSize(style.h3);
+ 
+if (team1or2 == false){
+ text(teamname1.saved, style.centerX, style.row1);
+ }
+ 
+if (team1or2 == true){
+ text(teamname2.saved, style.centerX, style.row1);
+ }
+ 
+ text("Obstacle "+ trickNum, style.centerX, style.row2);
+ 
+ d1.show();
+ d2.show();
+ d3.show();
+ d4.show();
+ 
+ 
+ 
+  enterButton.display(style.centerX, style.row7, enterButton.w3,enterButton.ht2,"Enter", style.h3);
+  enterButton.update();
+  
+   if (enterButton.pressed && doItOnce == false) { //the button that is the bigmap image
+    if (team1or2 == true){
+      trickNum += 1;
+    }
+    team1tempPoints[0] = componentPoints[0] + componentPoints[1] + componentPoints[2] + componentPoints[3];
+    println(team1tempPoints[0]);
+    team1or2 = !team1or2;
+    doItOnce = true;
+    println (team1or2);
+    
+    if (trickNum == 5){
+     team1or2 = false;
+     readyBool = true;
+     //startBool = true; 
+    }
+    
   }
+  
+  if (enterButton.pressed == false) {
+    doItOnce = false;
+  }
+  
+  
   
   //-----------------------
  // SHOWING AND HIDING DROPDOWNS
@@ -721,44 +768,124 @@ public void obstaclesScreen(){
  }
  
 }
+public void readyScreen(){
+  
+      secondBool =false;
+      mainBool = false;
+      mapBool = false;
+      skateBool= false; 
+      localBool = false;
+      lesDBool = false;
+      checkBool = false;
+      loginBool = false;
+      loginBool2 = false;
+      team1Bool = false;
+      team2Bool = false;
+      
+    d1.remove(); //this removes our dropdowns
+    d2.remove();
+    d3.remove();
+    d4.remove();
+  
+  
+ textSize(style.h4);
+ textAlign(CENTER);
+ text("Team 1 Ready", style.centerX, style.row2); //write rules here
+  
+  readyButton1.display(style.centerX, style.row5, readyButton1.w5, readyButton1.ht5, "GO!", style.h6);
+  readyButton1.update(); 
+  
+  if (readyButton1.pressed) { 
+    refBool = true;
+}
+  
+}
+public void readyScreen2(){
+  
+      secondBool =false;
+      mainBool = false;
+      mapBool = false;
+      skateBool= false; 
+      localBool = false;
+      lesDBool = false;
+      checkBool = false;
+      loginBool = false;
+      loginBool2 = false;
+      team1Bool = false;
+      team2Bool = false;
+      readyBool = false;
+      refBool = false;
+   
+  
+ textSize(style.h4);
+ textAlign(CENTER);
+ text("Team 2 Ready", style.centerX, style.row2); //write rules here
+  
+  readyButton2.display(style.centerX, style.row5, readyButton1.w5, readyButton1.ht5, "GO!", style.h6);
+  readyButton2.update(); 
+  
+  if (readyButton2.pressed) { 
+    team1or2 = true;
+    refBool = true;
+}
+  
+}
 public void refScreen(){
   
-//TEAM 1
-  textSize(style.h1);
-  text(teamname1.saved, style.col2, style.row1);
-  text("Obstacle # " + obstacle1, style.col2, style.row2);
-  
-  hit1Button.display(style.col2, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
-  hit1Button.update();
-  
-  miss1Button.display(style.col2,style.row5, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
-  miss1Button.update();
-
-  cop1Button.display(style.col2,style.row6, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
-  cop1Button.update();
-  
-  textSize(style.h1);
-  text(teamname2.saved, style.col6, style.row1);
-  text("Obstacle # " + obstacle2, style.col6, style.row2);
-  
-  hit2Button.display(style.col6, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);
-  hit2Button.update();
-  
-  miss2Button.display(style.col6,style.row5, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
-  miss2Button.update();
-
-  cop2Button.display(style.col6,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
-  cop2Button.update();
-  
+      secondBool =false;
+      mainBool = false;
+      mapBool = false;
+      skateBool= false; 
+      localBool = false;
+      lesDBool = false;
+      checkBool = false;
+      loginBool = false;
+      loginBool2 = false;
+      team1Bool = false;
+      team2Bool = false;
+      readyBool = false;
+      readyBool2 = false;
+    
+    
   if(sw.running == false){
+  sw.stop();
   sw.start(); //start the timer
   }
-  String timer = nf(sw.minute(), 2)+":"+nf(sw.second(), 2);
-  text("TIMER: "+timer, style.centerX, style.row7);
-
- //-----------------------------------
   
-  //TEAM 1 BUTTON LOGIC
+  String timer = nf(120 - sw.second(), 3);
+  text("TIMER: "+timer, style.centerX, style.row7);
+    
+   if (team1or2 == false){
+    textSize(style.h1);
+    text(teamname1.saved, style.centerX, style.row1); 
+    text("Obstacle # " + obstacle1, style.centerX, style.row2);
+    team1Run();
+   }
+   
+   if (team1or2 == true){
+    textSize(style.h1); 
+    text(teamname2.saved, style.centerX, style.row1);
+    text("Obstacle # " + obstacle2, style.centerX, style.row2);
+    team2Run();
+   }
+   
+  
+}
+
+//---------------------------------- 
+
+ public void team1Run(){
+   
+  hit1Button.display(style.centerX, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
+  hit1Button.update();
+  
+  miss1Button.display(style.centerX,style.row5, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
+  miss1Button.update();
+
+  cop1Button.display(style.centerX,style.row6, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
+  cop1Button.update();
+  
+    //TEAM 1 BUTTON LOGIC
    if (hit1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       obstacle1+=1;
@@ -780,22 +907,66 @@ public void refScreen(){
   }
   
   if (hit1Button.pressed == false && cop1Button.pressed == false && miss1Button.pressed == false){
-    doItOnce1 = false;
+      doItOnce1 = false;
   }
   
-  //TEAM 2 BUTTON LOGIC
+    
+  if (obstacle1 == 5 && team1Done == false){
+   // time1 = timer;
+    team1Done = true;
+  } 
+  
+  //To Cap our obstacles at 5 for the demo
+  if (obstacle1 > 5){
+    obstacle1 = 5;
+  }
+
+
+//Go to the finish screen when we're done
+  if (team1Done){
+//      team1or2 = true;
+    sw.stop();
+    readyBool2 = true;
+  }
+  
+//  if(sw.running == false){
+//  sw.start(); //start the timer
+//  }
+//  
+//
+//  String timer = nf(120 - sw.second(), 3);
+//  text("TIMER: "+timer, style.centerX, style.row7);
+  
+ }
+ 
+
+ 
+ //---------------------------------- 
+
+ public void team2Run(){
+   
+  hit2Button.display(style.centerX, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);
+  hit2Button.update();
+  
+  miss2Button.display(style.centerX,style.row5, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
+  miss2Button.update();
+
+  cop2Button.display(style.centerX,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
+  cop2Button.update();
+  
+    //TEAM 1 BUTTON LOGIC
    if (hit2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       obstacle2+=1;
       hit2+=1;
-//      println(obstacle2);
+//      println(obstacle1);
   }
   
    if (cop2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       obstacle2+=1;
       cop2+=1;
-//      println(obstacle2);
+//      println(obstacle1);
   }
   
   if (miss2Button.pressed && doItOnce2 == false) { 
@@ -805,31 +976,40 @@ public void refScreen(){
   }
   
   if (hit2Button.pressed == false && cop2Button.pressed == false && miss2Button.pressed == false){
-    doItOnce2 = false;
+      doItOnce2 = false;
   }
   
-  
-  if (obstacle1 == 5 && team1Done == false){
-    time1 = timer;
-    team1Done = true;
-  }
-  
+    
   if (obstacle2 == 5 && team2Done == false){
-    time2 = timer;
+   // time1 = timer;
     team2Done = true;
   }
   
-  //To Cap our obstacles at 5 for the demo
-  if (obstacle1 > 5){
-    obstacle1 = 5;
-  }
   
+  //To Cap our obstacles at 5 for the demo
   if (obstacle2 > 5){
     obstacle2 = 5;
   }
 
 //Go to the finish screen when we're done
-  if ((team1Done) && (team2Done)){
+  if (team2Done){
+      finishBool = true;
+  }
+  
+  
+ //--------------- 
+ 
+
+  
+ }
+  
+  
+ 
+
+ 
+
+public void finishScreen(){
+  
       secondBool =false;
       mainBool = false;
       mapBool = false;
@@ -841,13 +1021,9 @@ public void refScreen(){
       loginBool2 = false;
       team1Bool = false;
       team2Bool = false;
-      startBool = false;
-      finishBool = true;
-  }
- 
-}
-public void finishScreen(){
-  
+      refBool = false;
+      readyBool = false;
+      readyBool2 = false;
   
   textSize(style.h2);
   text(teamname1.saved, style.col2, style.row1);
@@ -1041,16 +1217,25 @@ public void toggleGrid(){
   
 }
 class StopWatchTimer {
-  int startTime = 0, stopTime = 0;
+  int startTime = millis(), stopTime = 0;
   boolean running = false; 
-  void start() {
+  
+  //-----------------------
+  
+public void start() {
+//    startTime = millis();
     startTime = millis();
     running = true;
   }
+  
+  //-----------------------
+  
+  
 public void stop() {
     stopTime = millis();
     running = false;
   }
+  
   int getElapsedTime() {
     int elapsed;
     if (running) {
@@ -1076,21 +1261,13 @@ public void stop() {
     return (getElapsedTime() / (1000*60*60)) % 24;
   }
   
+  //-----------------------
+  
  public void time() {
-  background(#FFFFFF);
-  fill(#000000);
-  textAlign(CENTER);
-  // textFont(words, 50);
-  //
-  //  text(second()+ , 350, 175);
-  //
-  //  text(":", 300, 175);
-  //
-  //  text(minute(), 250, 175);
-  //
-  //  text(":", 200, 175);
-  //  text(hour(), 150, 175);
-  text(nf(sw.hour(), 2)+":"+nf(sw.minute(), 2)+":"+nf(sw.second(), 2), 150, 175);
+//  background(#FFFFFF);
+//  fill(#000000);
+//  textAlign(CENTER);
+//  text(nf(sw.second(), 3), 150, 175);
 }
 
 }
