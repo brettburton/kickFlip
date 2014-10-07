@@ -1,4 +1,4 @@
-public void readyScreen2(){
+ void readyScreen2(){
   
       secondBool =false;
       mainBool = false;
@@ -19,7 +19,7 @@ public void readyScreen2(){
  textAlign(CENTER);
  text("Team 2 Ready", style.centerX, style.row2); //write rules here
   
-  readyButton2.display(style.centerX, style.row5, readyButton1.w5, readyButton1.ht5, "GO!", style.h6);
+  readyButton2.display(style.centerX, style.row5, readyButton1.w5, readyButton1.ht6, "GO!", style.h6);
   readyButton2.update(); 
   
   if (readyButton2.pressed) { 

@@ -1,5 +1,5 @@
 
-public void lesScreen()
+void lesScreen()
 
 {
   textAlign(CENTER);

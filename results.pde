@@ -1,4 +1,4 @@
-public void finishScreen(){
+ void finishScreen(){
   
       secondBool =false;
       mainBool = false;

@@ -1,4 +1,4 @@
-public void loginScreen2(){
+ void loginScreen2(){
 
   //brett will add dropdown
   

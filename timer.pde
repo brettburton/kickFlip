@@ -4,7 +4,7 @@ class StopWatchTimer {
   
   //-----------------------
   
-public void start() {
+ void start() {
 //    startTime = millis();
     startTime = millis();
     running = true;
@@ -13,7 +13,7 @@ public void start() {
   //-----------------------
   
   
-public void stop() {
+ void stop() {
     stopTime = millis();
     running = false;
   }
@@ -45,7 +45,7 @@ public void stop() {
   
   //-----------------------
   
- public void time() {
+  void time() {
 //  background(#FFFFFF);
 //  fill(#000000);
 //  textAlign(CENTER);
