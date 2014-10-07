@@ -3,23 +3,19 @@
 //DECLARE VARIABLES HERE
 
 
- JSONArray flipIns;
- JSONArray flipOuts;
- JSONArray grinds;
- JSONArray stances;
-
- JSONObject flipIn;
- JSONObject grind;
- JSONObject flipOut;
- JSONObject stance;
+ int[] flipPoints = {125,70,75,50,65,200,150,165,215,215,180,195,195,225,220,145,140,40};  // Points for flip tricks
+ int[] grindPoints = {75,75,85,85,125,125,100,100,150,150,165,165,175,175,110,110,70,70,185,185,195,195}; //Points for grinds
+ int[] stancePoints = {5,9,10,7};//points for stance
+ String[] flipNames = {"heelflip","pop-shuv it","fs pop shuv","ollie","nollie","360 flip","360 shuv","360 fs shuv","inwardflip","hardflip","bigspin","fs bigspin","bs bigspin","bigheelflip","bigflip","varial heel","varial kick","cop-out"};
+ String[] grindNames = {"frontside 50-50","backside 50-50","frontside five-0","backside five-0","backside crooked","frontside crooked","frontside salad","backside salad","frontside smith","backside smith","frontside overcrook","backside overcrook","frontside nosegrind","backside nosegrind","frontside noselide","frontside boardslide","backside boardslide","frontside bluntslide","backside boardslide","frontside noseblunt","backside noseblunt"};
+ String[] stanceNames = {"regular","nollie","switch","fakie"};
+ 
   
  Input teamname1;
  Input teamname2;
 
  StopWatchTimer sw;
  Style style;
-
- JSONObject teamNames;
 
  boolean mainBool = true;
  boolean secondBool = false;
@@ -77,6 +73,8 @@
  int cop2 = 0;
  String time1; //finish time for team1
  String time2; //finish time for team2
+ int timeFinal1; //finish time int for team1
+ int timeFinal2; //finish time int for team2
  boolean doItOnce = false;
  boolean doItOnce1 = false; //these are so our buttons on the ref page don't turbo fire
  boolean doItOnce2 = false;
@@ -133,12 +131,6 @@ int whichStance = 0;
 size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
 
-flipIns = loadJSONArray("flip.json");
-flipOuts = loadJSONArray("flip.json");
-grinds = loadJSONArray("grind.json");  
-stances = loadJSONArray("stance.json");  
-
-teamNames = new JSONObject();
 
 teamname1 = new Input();
 teamname2 = new Input();
@@ -301,9 +293,9 @@ void lesScreen()
  textAlign(CENTER, CENTER);
  teamname1.display(style.centerX, style.row3);
  
- //JSON SAVE STUFF
- teamNames.setString("Name1", teamname1.saved);
- saveJSONObject(teamNames, "data/teamNames.json");
+// //JSON SAVE STUFF
+// teamNames.setString("Name1", teamname1.saved);
+// saveJSONObject(teamNames, "data/teamNames.json");
 
 
  
@@ -337,8 +329,8 @@ void lesScreen()
 
 
  //JSON SAVE STUFF
- teamNames.setString("Name2", teamname2.saved);
- saveJSONObject(teamNames, "data/teamNames.json");
+// teamNames.setString("Name2", teamname2.saved);
+// saveJSONObject(teamNames, "data/teamNames.json");
 
  if (teamname2.enter){
     secondBool =false;
@@ -568,10 +560,8 @@ void input(int buffSize_) {
 }
  void obstaclesScreen(){
 
-  
-// fillJSON();
-
-   secondBool =false;
+ 
+    secondBool =false;
     mainBool = false;
     mapBool = false;
     skateBool= false; 
@@ -579,10 +569,8 @@ void input(int buffSize_) {
     lesDBool = false;
     checkBool = false;
     loginBool = false;
-//    loginBool2 = false;
     team1Bool = false;
     team2Bool = false;
-   // startBool = true;
  
  
  textAlign(CENTER,CENTER);
@@ -631,35 +619,33 @@ if (team1or2 == true){
  stanceNextButton.update();
  stancePrevButton.update();
  
+ componentPoints[0] = flipPoints[whichFlipIn]; //get the point value for our trick and store it in a variable
+ componentPoints[1] = grindPoints[whichGrind];
+ componentPoints[2] = flipPoints[whichFlipOut];
+ componentPoints[3] = stancePoints[whichStance];
+ 
+ 
  //prev/next button logic
  
  //FLIP-IN -----------------------------------------
  
   if(flipINextButton.pressed && doItOnce == false) {
    whichFlipIn += 1;
-   if (whichFlipIn > flipIns.size()-1){
+   if (whichFlipIn > flipPoints.length-1){
      whichFlipIn = 0;
    }
    doItOnce = true;
-   JSONObject fIn = flipIns.getJSONObject(whichFlipIn); //create a temp JSON Object and load it with JSON data
-   componentPoints[0] = fIn.getInt("points"); //get the point value for our trick and store it in a variable
-//   println(componentPoints[0]);
  }
  
    if(flipIPrevButton.pressed && doItOnce == false) {
    whichFlipIn -= 1;
    if (whichFlipIn < 0){
-     whichFlipIn = flipIns.size()-1;
+     whichFlipIn = flipPoints.length-1;
    }
    doItOnce = true;
-   JSONObject fIn = flipIns.getJSONObject(whichFlipIn); 
-   componentPoints[0] = fIn.getInt("points");
-//   println(componentPoints[0]);
  }
  
-
-JSONObject fIn = flipIns.getJSONObject(whichFlipIn);
-flipIStr = fIn.getString("name");
+flipIStr = flipNames[whichFlipIn];
 
  
  
@@ -667,86 +653,62 @@ flipIStr = fIn.getString("name");
  
   if(flipONextButton.pressed && doItOnce == false) {
    whichFlipOut += 1;
-   if (whichFlipOut > flipOuts.size()-1){
+   if (whichFlipOut > flipPoints.length-1){
      whichFlipOut = 0;
    }
    doItOnce = true;
-   JSONObject fOut = flipOuts.getJSONObject(whichFlipOut); //create a temp JSON Object and load it with JSON data
-   componentPoints[2] = fOut.getInt("points"); //get the point value for our trick and store it in a variable
-//   println(componentPoints[2]);
  }
  
    if(flipOPrevButton.pressed && doItOnce == false) {
    whichFlipOut -= 1;
    if (whichFlipOut < 0){
-     whichFlipOut = flipOuts.size()-1;
+     whichFlipOut = flipPoints.length-1;
    }
    doItOnce = true;
-   JSONObject fOut = flipOuts.getJSONObject(whichFlipOut); 
-   componentPoints[2] = fOut.getInt("points");
-//   println(componentPoints[2]);
  }
  
-
-JSONObject fOut = flipOuts.getJSONObject(whichFlipOut);
-flipOStr = fOut.getString("name");
+flipOStr = flipNames[whichFlipOut];
 
  
 //GRIND -----------------------------------------
  
   if(grindNextButton.pressed && doItOnce == false) {
    whichGrind += 1;
-   if (whichGrind > grinds.size()-1){
+   if (whichGrind > grindPoints.length-1){
      whichGrind = 0;
    }
    doItOnce = true;
-   JSONObject Grind = grinds.getJSONObject(whichGrind); //create a temp JSON Object and load it with JSON data
-   componentPoints[1] = Grind.getInt("points"); //get the point value for our trick and store it in a variable
-//   println(componentPoints[1]);
  }
  
    if(grindPrevButton.pressed && doItOnce == false) {
    whichGrind -= 1;
    if (whichGrind < 0){
-     whichGrind = grinds.size()-1;
+     whichGrind = grindPoints.length-1;
    }
    doItOnce = true;
-   JSONObject Grind = grinds.getJSONObject(whichGrind); 
-   componentPoints[1] = Grind.getInt("points");
-//   println(componentPoints[1]);
  }
  
-
-JSONObject Grind = grinds.getJSONObject(whichGrind);
-grindStr = Grind.getString("name");
+grindStr = grindNames[whichGrind];
 
 //STANCE -----------------------------------------
  
   if(stanceNextButton.pressed && doItOnce == false) {
    whichStance += 1;
-   if (whichStance > stances.size()-1){
+   if (whichStance > stancePoints.length-1){
      whichStance = 0;
    }
    doItOnce = true;
-   JSONObject Stance = stances.getJSONObject(whichStance); //create a temp JSON Object and load it with JSON data
-   componentPoints[3] = Stance.getInt("points"); //get the point value for our trick and store it in a variable
-//   println(componentPoints[3]);
  }
  
    if(stancePrevButton.pressed && doItOnce == false) {
    whichStance -= 1;
    if (whichStance < 0){
-     whichStance = stances.size()-1;
+     whichStance = stancePoints.length-1;
    }
    doItOnce = true;
-   JSONObject Stance = stances.getJSONObject(whichStance); 
-   componentPoints[3] = Stance.getInt("points");
-//   println(componentPoints[3]);
  }
  
-
-JSONObject Stance = stances.getJSONObject(whichStance);
-stanceStr = Stance.getString("name");
+stanceStr = stanceNames[whichStance];
 
  
  //-----------------------------------
@@ -757,33 +719,32 @@ stanceStr = Stance.getString("name");
   enterButton.update();
   
    if (enterButton.pressed && doItOnce == false) { 
-    if (team1or2 == true){
+    
+     if (team1or2 == true){
      //the stupid -1 math here is because trickNum starts at 1 for display purposes
      team2tempPoints[trickNum-1] = componentPoints[0] + componentPoints[1] + componentPoints[2] + componentPoints[3];
-//     print ("team 2 trick #" + trickNum + ": ");
-     println(team2tempPoints[trickNum-1]);
-//     resetDrop();
      trickNum += 1;
+     whichFlipIn = 0;  //reset our buttons
+     whichFlipOut = 0;
+     whichGrind = 0;
+     whichStance = 0; 
     }
+    
     if (team1or2 == false){
      team1tempPoints[trickNum-1] = componentPoints[0] + componentPoints[1] + componentPoints[2] + componentPoints[3];
-//     print ("team 1 trick #" + trickNum + ": ");
-     println(team1tempPoints[trickNum-1]);
-//     resetDrop();
+     whichFlipIn = 0; //reset our buttons
+     whichFlipOut = 0;
+     whichGrind = 0;
+     whichStance = 0;
     }
     //if false team 1 if true team 2 
-    
-    
     team1or2 = !team1or2;
     doItOnce = true;
-//    println (team1or2);
     
     if (trickNum == 5){
      team1or2 = false;
      readyBool = true;
-     //startBool = true; 
-    }
-    
+    }  
   }
   
   //reset our doItOnce when no buttons are being pressed
@@ -905,20 +866,19 @@ public void refScreen(){
 
  public void team1Run(){
    
-  hit1Button.display(style.centerX, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
+  hit1Button.display(style.centerX, style.row4, hit1Button.w3, hit1Button.ht4, "HIT", style.h3);
   hit1Button.update();
   
-  miss1Button.display(style.centerX,style.row5, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
+  miss1Button.display(style.centerX,style.row5, miss1Button.w3,miss1Button.ht4,"MISS", style.h3);
   miss1Button.update();
 
-  cop1Button.display(style.centerX,style.row6, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
+  cop1Button.display(style.centerX,style.row6, cop1Button.w3,cop1Button.ht4,"COPOUT", style.h3);
   cop1Button.update();
   
     //TEAM 1 BUTTON LOGIC
    if (hit1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       team1trickPoints[obstacle1-1]=team1tempPoints[obstacle1-1];  //the stupid -1 math here is because obstacle1 starts at 1 for display purposes
-      println (team1tempPoints[obstacle1-1]);
       obstacle1+=1;
       hit1+=1;
 //      println(obstacle1);
@@ -927,7 +887,6 @@ public void refScreen(){
    if (cop1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       team1trickPoints[obstacle1-1]+=40;
-      println (team1tempPoints[obstacle1-1]);
       obstacle1+=1;
       cop1+=1;
 //      println(obstacle1);
@@ -936,7 +895,6 @@ public void refScreen(){
   if (miss1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       team1trickPoints[obstacle1-1]-=10;
-      println (team1tempPoints[obstacle1-1]);
       miss1+=1;
 //      println("miss");
   }
@@ -947,7 +905,8 @@ public void refScreen(){
   
     
   if (obstacle1 == 5 && team1Done == false){
-   // time1 = timer;
+    time1 = nf(120 - sw.second(), 3);
+    timeFinal1 = 120 - sw.second();
     team1Done = true;
   } 
   
@@ -964,13 +923,13 @@ public void refScreen(){
     readyBool2 = true;
   }
   
-//  if(sw.running == false){
-//  sw.start(); //start the timer
-//  }
-//  
-//
-//  String timer = nf(120 - sw.second(), 3);
-//  text("TIMER: "+timer, style.centerX, style.row7);
+  if(sw.running == false){
+  sw.start(); //start the timer
+  }
+  
+
+  String timer = nf(120 - sw.second(), 3);
+  text("TIMER: "+timer, style.centerX, style.row7);
   
  }
  
@@ -980,20 +939,19 @@ public void refScreen(){
 
  public void team2Run(){
    
-  hit2Button.display(style.centerX, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);
+  hit2Button.display(style.centerX, style.row4, hit2Button.w3, hit2Button.ht4, "HIT", style.h3);
   hit2Button.update();
   
-  miss2Button.display(style.centerX,style.row5, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
+  miss2Button.display(style.centerX,style.row5, miss2Button.w3,miss2Button.ht4,"MISS", style.h3);
   miss2Button.update();
 
-  cop2Button.display(style.centerX,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
+  cop2Button.display(style.centerX,style.row6, cop2Button.w3,cop2Button.ht4,"COPOUT", style.h3);
   cop2Button.update();
   
     //TEAM 1 BUTTON LOGIC
    if (hit2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       team2trickPoints[obstacle2-1]=team2tempPoints[obstacle2-1];  //the stupid -1 math here is because obstacle2 starts at 1 for display purposes
-      println (team2tempPoints[obstacle2-1]);
       obstacle2+=1;
       hit2+=1;
 //      println(obstacle1);
@@ -1002,7 +960,6 @@ public void refScreen(){
    if (cop2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       team2trickPoints[obstacle2-1]+=40;
-      println (team2tempPoints[obstacle2-1]);
       obstacle2+=1;
       cop2+=1;
 //      println(obstacle1);
@@ -1011,7 +968,6 @@ public void refScreen(){
   if (miss2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       team2trickPoints[obstacle2-1]-=10;
-      println (team2tempPoints[obstacle2-1]);
       miss2+=1;
 //      println("miss");
   }
@@ -1022,7 +978,8 @@ public void refScreen(){
   
     
   if (obstacle2 == 5 && team2Done == false){
-   // time1 = timer;
+    time2 = nf(120 - sw.second(), 3);
+    timeFinal2 = 120 - sw.second();
     team2Done = true;
   }
   
@@ -1066,6 +1023,9 @@ public void refScreen(){
       refBool = false;
       readyBool = false;
       readyBool2 = false;
+
+    
+      
   
   textSize(style.h2);
   text(teamname1.saved, style.col2, style.row1);
@@ -1076,12 +1036,21 @@ public void refScreen(){
   total1Once = true;
   }
   
+  if (timeFinal1 > 0){
   text("Score " + totalScore1, style.col2, style.row2);
   text("Time " + time1, style.col2, style.row3);
   text("Hits " + hit1, style.col2, style.row4);
   text("Misses " + miss1, style.col2, style.row5);
   text("Cop Outs " + cop1, style.col2, style.row6);
+  }
   
+  if (timeFinal1 < 1){
+  text("Score ZERO", style.col2, style.row2);
+  text("Time TIMED OUT", style.col2, style.row3);
+  text("Hits " + hit1, style.col2, style.row4);
+  text("Misses " + miss1, style.col2, style.row5);
+  text("Cop Outs " + cop1, style.col2, style.row6);
+  }
   
   text(teamname2.saved, style.col6, style.row1);
     if (total2Once == false){
@@ -1091,12 +1060,21 @@ public void refScreen(){
   total2Once = true;
   }
   
+  if (timeFinal2 > 0){
   text("Score " + totalScore2, style.col6, style.row2);
   text("Time " + time2, style.col6, style.row3);
   text("Hits " + hit2, style.col6, style.row4);
   text("Misses " + miss2, style.col6, style.row5);
   text("Cop Outs " + cop2, style.col6, style.row6);
+  }
   
+  if (timeFinal2 < 1){
+  text("Score ZERO", style.col6, style.row2);
+  text("Time TIMED OUT", style.col6, style.row3);
+  text("Hits " + hit2, style.col6, style.row4);
+  text("Misses " + miss2, style.col6, style.row5);
+  text("Cop Outs " + cop2, style.col6, style.row6);
+  }
   
 }
 

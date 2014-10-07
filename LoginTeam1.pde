@@ -12,9 +12,9 @@
  textAlign(CENTER, CENTER);
  teamname1.display(style.centerX, style.row3);
  
- //JSON SAVE STUFF
- teamNames.setString("Name1", teamname1.saved);
- saveJSONObject(teamNames, "data/teamNames.json");
+// //JSON SAVE STUFF
+// teamNames.setString("Name1", teamname1.saved);
+// saveJSONObject(teamNames, "data/teamNames.json");
 
 
  

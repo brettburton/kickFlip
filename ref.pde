@@ -44,20 +44,19 @@ public void refScreen(){
 
  public void team1Run(){
    
-  hit1Button.display(style.centerX, style.row4, hit1Button.w3, hit1Button.ht3, "HIT", style.h3);
+  hit1Button.display(style.centerX, style.row4, hit1Button.w3, hit1Button.ht4, "HIT", style.h3);
   hit1Button.update();
   
-  miss1Button.display(style.centerX,style.row5, miss1Button.w3,miss1Button.ht3,"MISS", style.h3);
+  miss1Button.display(style.centerX,style.row5, miss1Button.w3,miss1Button.ht4,"MISS", style.h3);
   miss1Button.update();
 
-  cop1Button.display(style.centerX,style.row6, cop1Button.w3,cop1Button.ht3,"COPOUT", style.h3);
+  cop1Button.display(style.centerX,style.row6, cop1Button.w3,cop1Button.ht4,"COPOUT", style.h3);
   cop1Button.update();
   
     //TEAM 1 BUTTON LOGIC
    if (hit1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       team1trickPoints[obstacle1-1]=team1tempPoints[obstacle1-1];  //the stupid -1 math here is because obstacle1 starts at 1 for display purposes
-      println (team1tempPoints[obstacle1-1]);
       obstacle1+=1;
       hit1+=1;
 //      println(obstacle1);
@@ -66,7 +65,6 @@ public void refScreen(){
    if (cop1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       team1trickPoints[obstacle1-1]+=40;
-      println (team1tempPoints[obstacle1-1]);
       obstacle1+=1;
       cop1+=1;
 //      println(obstacle1);
@@ -75,7 +73,6 @@ public void refScreen(){
   if (miss1Button.pressed && doItOnce1 == false) { 
       doItOnce1 = true;
       team1trickPoints[obstacle1-1]-=10;
-      println (team1tempPoints[obstacle1-1]);
       miss1+=1;
 //      println("miss");
   }
@@ -86,7 +83,8 @@ public void refScreen(){
   
     
   if (obstacle1 == 5 && team1Done == false){
-   // time1 = timer;
+    time1 = nf(120 - sw.second(), 3);
+    timeFinal1 = 120 - sw.second();
     team1Done = true;
   } 
   
@@ -103,13 +101,13 @@ public void refScreen(){
     readyBool2 = true;
   }
   
-//  if(sw.running == false){
-//  sw.start(); //start the timer
-//  }
-//  
-//
-//  String timer = nf(120 - sw.second(), 3);
-//  text("TIMER: "+timer, style.centerX, style.row7);
+  if(sw.running == false){
+  sw.start(); //start the timer
+  }
+  
+
+  String timer = nf(120 - sw.second(), 3);
+  text("TIMER: "+timer, style.centerX, style.row7);
   
  }
  
@@ -119,20 +117,19 @@ public void refScreen(){
 
  public void team2Run(){
    
-  hit2Button.display(style.centerX, style.row4, hit2Button.w3, hit2Button.ht3, "HIT", style.h3);
+  hit2Button.display(style.centerX, style.row4, hit2Button.w3, hit2Button.ht4, "HIT", style.h3);
   hit2Button.update();
   
-  miss2Button.display(style.centerX,style.row5, miss2Button.w3,miss2Button.ht3,"MISS", style.h3);
+  miss2Button.display(style.centerX,style.row5, miss2Button.w3,miss2Button.ht4,"MISS", style.h3);
   miss2Button.update();
 
-  cop2Button.display(style.centerX,style.row6, cop2Button.w3,cop2Button.ht3,"COPOUT", style.h3);
+  cop2Button.display(style.centerX,style.row6, cop2Button.w3,cop2Button.ht4,"COPOUT", style.h3);
   cop2Button.update();
   
     //TEAM 1 BUTTON LOGIC
    if (hit2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       team2trickPoints[obstacle2-1]=team2tempPoints[obstacle2-1];  //the stupid -1 math here is because obstacle2 starts at 1 for display purposes
-      println (team2tempPoints[obstacle2-1]);
       obstacle2+=1;
       hit2+=1;
 //      println(obstacle1);
@@ -141,7 +138,6 @@ public void refScreen(){
    if (cop2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       team2trickPoints[obstacle2-1]+=40;
-      println (team2tempPoints[obstacle2-1]);
       obstacle2+=1;
       cop2+=1;
 //      println(obstacle1);
@@ -150,7 +146,6 @@ public void refScreen(){
   if (miss2Button.pressed && doItOnce2 == false) { 
       doItOnce2 = true;
       team2trickPoints[obstacle2-1]-=10;
-      println (team2tempPoints[obstacle2-1]);
       miss2+=1;
 //      println("miss");
   }
@@ -161,7 +156,8 @@ public void refScreen(){
   
     
   if (obstacle2 == 5 && team2Done == false){
-   // time1 = timer;
+    time2 = nf(120 - sw.second(), 3);
+    timeFinal2 = 120 - sw.second();
     team2Done = true;
   }
   

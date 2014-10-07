@@ -3,23 +3,19 @@
 //DECLARE VARIABLES HERE
 
 
- JSONArray flipIns;
- JSONArray flipOuts;
- JSONArray grinds;
- JSONArray stances;
-
- JSONObject flipIn;
- JSONObject grind;
- JSONObject flipOut;
- JSONObject stance;
+ int[] flipPoints = {125,70,75,50,65,200,150,165,215,215,180,195,195,225,220,145,140,40};  // Points for flip tricks
+ int[] grindPoints = {75,75,85,85,125,125,100,100,150,150,165,165,175,175,110,110,70,70,185,185,195,195}; //Points for grinds
+ int[] stancePoints = {5,9,10,7};//points for stance
+ String[] flipNames = {"heelflip","pop-shuv it","fs pop shuv","ollie","nollie","360 flip","360 shuv","360 fs shuv","inwardflip","hardflip","bigspin","fs bigspin","bs bigspin","bigheelflip","bigflip","varial heel","varial kick","cop-out"};
+ String[] grindNames = {"frontside 50-50","backside 50-50","frontside five-0","backside five-0","backside crooked","frontside crooked","frontside salad","backside salad","frontside smith","backside smith","frontside overcrook","backside overcrook","frontside nosegrind","backside nosegrind","frontside noselide","frontside boardslide","backside boardslide","frontside bluntslide","backside boardslide","frontside noseblunt","backside noseblunt"};
+ String[] stanceNames = {"regular","nollie","switch","fakie"};
+ 
   
  Input teamname1;
  Input teamname2;
 
  StopWatchTimer sw;
  Style style;
-
- JSONObject teamNames;
 
  boolean mainBool = true;
  boolean secondBool = false;
@@ -77,6 +73,8 @@
  int cop2 = 0;
  String time1; //finish time for team1
  String time2; //finish time for team2
+ int timeFinal1; //finish time int for team1
+ int timeFinal2; //finish time int for team2
  boolean doItOnce = false;
  boolean doItOnce1 = false; //these are so our buttons on the ref page don't turbo fire
  boolean doItOnce2 = false;
@@ -133,12 +131,6 @@ int whichStance = 0;
 size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
 
-flipIns = loadJSONArray("flip.json");
-flipOuts = loadJSONArray("flip.json");
-grinds = loadJSONArray("grind.json");  
-stances = loadJSONArray("stance.json");  
-
-teamNames = new JSONObject();
 
 teamname1 = new Input();
 teamname2 = new Input();

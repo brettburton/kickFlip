@@ -13,8 +13,8 @@
 
 
  //JSON SAVE STUFF
- teamNames.setString("Name2", teamname2.saved);
- saveJSONObject(teamNames, "data/teamNames.json");
+// teamNames.setString("Name2", teamname2.saved);
+// saveJSONObject(teamNames, "data/teamNames.json");
 
  if (teamname2.enter){
     secondBool =false;
