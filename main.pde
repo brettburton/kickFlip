@@ -22,8 +22,11 @@
  textSize(style.p);
  textAlign(CENTER);
  
- text("RULES: Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.", style.col1, style.row6, style.col6, style.row6 ); //write rules here
-  
+ text("Relay Rush is a relay race on skateboards. The goal of teams is to complete the obstacle course doing the hardest tricks in the fastest time. players man obstacles and land a sucessful trick/trick line on said obstacle then rush over to their next team mate. This action is repeated until the last player has gone.", style.col1, style.row6, style.col6, style.row6 ); //write rules here
+ text("THE CATCH: players must submit their trick decisions too the ref before the game begins. All trick decisions are final. Players get penalized for missing. The more you miss the higher the penalty. Players can cop-out for a default score. A cop-out is any trick other than the one the ref has registered for you.", style.col1, style.row7, style.col6, style.row7 ); //write rules here
+ 
+ 
+ 
   if (mainButton.pressed) { 
     secondBool =true;
     mainBool = false;
