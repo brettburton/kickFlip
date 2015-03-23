@@ -19,7 +19,8 @@
       
   
   textSize(style.h2);
-  text(teamname1.saved, style.col2, style.row1);
+//  text(teamname1.saved, style.col2, style.row1);
+  text("Team 1", style.col2, style.row1);
   if (total1Once == false){
     for (int i=0; i<4; i++){
       totalScore1 += team1trickPoints[i];
@@ -43,7 +44,8 @@
   text("Cop Outs " + cop1, style.col2, style.row6);
   }
   
-  text(teamname2.saved, style.col6, style.row1);
+//  text(teamname2.saved, style.col6, style.row1);
+  text("Team 2", style.col6, style.row1);
     if (total2Once == false){
     for (int i=0; i<4; i++){
       totalScore2 += team2trickPoints[i];

@@ -21,18 +21,21 @@ public void refScreen(){
   }
   
   String timer = nf(120 - sw.second(), 3);
+  textSize(style.h2);
   text("TIMER: "+timer, style.centerX, style.row7);
     
    if (team1or2 == false){
     textSize(style.h1);
-    text(teamname1.saved, style.centerX, style.row1); 
+    //text(teamname1.saved, style.centerX, style.row1); 
+    text("Team 1", style.centerX, style.row1);
     text("Obstacle # " + obstacle1, style.centerX, style.row2);
     team1Run();
    }
    
    if (team1or2 == true){
     textSize(style.h1); 
-    text(teamname2.saved, style.centerX, style.row1);
+//    text(teamname2.saved, style.centerX, style.row1);
+    text("Team 2", style.centerX, style.row1);
     text("Obstacle # " + obstacle2, style.centerX, style.row2);
     team2Run();
    }
@@ -107,6 +110,7 @@ public void refScreen(){
   
 
   String timer = nf(120 - sw.second(), 3);
+  textSize(style.h2);
   text("TIMER: "+timer, style.centerX, style.row7);
   
  }

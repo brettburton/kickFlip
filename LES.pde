@@ -13,7 +13,7 @@ void lesScreen()
   
                     //xpos, ypos, width, height, text, textSize
   textAlign(CENTER);
-  checkButton.display(style.centerX,style.row6, checkButton.w3,checkButton.ht4,"checkin", style.h3);
+  checkButton.display(style.centerX,style.row6, checkButton.w3,checkButton.ht4,"Proceed", style.h3);
   checkButton.update();
   
   if (checkButton.pressed) { //the button that is the bigmap image

@@ -11,8 +11,8 @@
  String[] stanceNames = {"regular","nollie","switch","fakie"};
  
   
- Input teamname1;
- Input teamname2;
+ //Input teamname1;
+ //Input teamname2;
 
  StopWatchTimer sw;
  Style style;
@@ -127,13 +127,13 @@ int whichStance = 0;
  void setup(){
 
 //1136×640 iphone screen
-//size(640,1136);
-size(400,710); //iPhone aspect ratio but not full screen size
+size(640,1136);
+//size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
 
 
-teamname1 = new Input();
-teamname2 = new Input();
+//teamname1 = new Input();
+//teamname2 = new Input();
 
 style = new Style();
 style.scheme(2);
@@ -203,16 +203,17 @@ stancePrevButton = new button();
  }
  
  if(checkBool){
-  loginScreen();
- }
- 
-  if(loginBool){
-  loginScreen2();
- }
- 
-   if(loginBool2){
+ // loginScreen();
   obstaclesScreen();
  }
+// 
+//  if(loginBool){
+//  loginScreen2();
+// }
+// 
+//   if(loginBool2){
+//  obstaclesScreen();
+// }
  
  if(readyBool){
   readyScreen();
@@ -240,14 +241,14 @@ stancePrevButton = new button();
 
  void keyPressed() {
   
-   if(checkBool){
-   teamname1.input(13);
-   }
-   
-   if(loginBool){
-   teamname2.input(13);
-   }
-   
+//   if(checkBool){
+//   teamname1.input(13);
+//   }
+//   
+//   if(loginBool){
+//   teamname2.input(13);
+//   }
+//   
 }
 
 
@@ -265,7 +266,7 @@ void lesScreen()
   
                     //xpos, ypos, width, height, text, textSize
   textAlign(CENTER);
-  checkButton.display(style.centerX,style.row6, checkButton.w3,checkButton.ht4,"checkin", style.h3);
+  checkButton.display(style.centerX,style.row6, checkButton.w3,checkButton.ht4,"Proceed", style.h3);
   checkButton.update();
   
   if (checkButton.pressed) { //the button that is the bigmap image
@@ -279,71 +280,71 @@ void lesScreen()
   }
   
 }
- void loginScreen(){
+// void loginScreen(){
+//
+// stroke(0);//had to add this because we use noStroke in the button class to hide the button outline.
+// //without this our text boxes look weird.
+//  
+// textSize(style.h3);
+// text("Team 1 Name", style.centerX, style.row2);
+// fill(255);
+// rectMode(CENTER);
+// rect(style.centerX, style.row3, loginButton.w5, loginButton.ht4);
+// fill(0);
+// textAlign(CENTER, CENTER);
+// teamname1.display(style.centerX, style.row3);
+// 
+//// //JSON SAVE STUFF
+//// teamNames.setString("Name1", teamname1.saved);
+//// saveJSONObject(teamNames, "data/teamNames.json");
+//
+//
+// 
+// if (teamname1.enter){
+//    secondBool =false;
+//    mainBool = false;
+//    mapBool = false;
+//    skateBool= false; 
+//    localBool = false;
+//    lesDBool = false;
+//    checkBool = false;
+//    loginBool = true;
+// }
+//
+// 
+// 
+//}
 
- stroke(0);//had to add this because we use noStroke in the button class to hide the button outline.
- //without this our text boxes look weird.
-  
- textSize(style.h3);
- text("Team 1 Name", style.centerX, style.row2);
- fill(255);
- rectMode(CENTER);
- rect(style.centerX, style.row3, loginButton.w5, loginButton.ht4);
- fill(0);
- textAlign(CENTER, CENTER);
- teamname1.display(style.centerX, style.row3);
- 
+// void loginScreen2(){
+//
+//  //brett will add dropdown
+//  
+// textSize(style.h3);
+// text("Team 2 Name", style.centerX, style.row2);
+// fill(255);
+// rectMode(CENTER);
+// rect(style.centerX, style.row3, loginButton.w5, loginButton.ht4);
+// fill(0);
+// textAlign(CENTER, CENTER);
+// teamname2.display(style.centerX, style.row3);
+//
+//
 // //JSON SAVE STUFF
-// teamNames.setString("Name1", teamname1.saved);
-// saveJSONObject(teamNames, "data/teamNames.json");
-
-
- 
- if (teamname1.enter){
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = false;
-    checkBool = false;
-    loginBool = true;
- }
-
- 
- 
-}
-
- void loginScreen2(){
-
-  //brett will add dropdown
-  
- textSize(style.h3);
- text("Team 2 Name", style.centerX, style.row2);
- fill(255);
- rectMode(CENTER);
- rect(style.centerX, style.row3, loginButton.w5, loginButton.ht4);
- fill(0);
- textAlign(CENTER, CENTER);
- teamname2.display(style.centerX, style.row3);
-
-
- //JSON SAVE STUFF
-// teamNames.setString("Name2", teamname2.saved);
-// saveJSONObject(teamNames, "data/teamNames.json");
-
- if (teamname2.enter){
-    secondBool =false;
-    mainBool = false;
-    mapBool = false;
-    skateBool= false; 
-    localBool = false;
-    lesDBool = false;
-    checkBool = false;
-    loginBool = false;
-    loginBool2 = true;
- }
-}
+//// teamNames.setString("Name2", teamname2.saved);
+//// saveJSONObject(teamNames, "data/teamNames.json");
+//
+// if (teamname2.enter){
+//    secondBool =false;
+//    mainBool = false;
+//    mapBool = false;
+//    skateBool= false; 
+//    localBool = false;
+//    lesDBool = false;
+//    checkBool = false;
+//    loginBool = false;
+//    loginBool2 = true;
+// }
+//}
 
 //-------------------------------------
  class button{
@@ -473,59 +474,60 @@ void update(){
 
 
 
-
-class Input{
-  
-String typing = "";    // Variable to store text currently being typed
-String saved = "";    // Variable to store saved text when return is hit
-int keyCount = typing.length();
-int buffSize = 25;
-int x = 0;
-int y = 0;
-boolean enter = false;
-
-// input(){
-//   
-// }
-  
-void display(int x_, int y_){
-  
-  // Display everything
-  x = x_;
-  y = y_;
-  
-  text(typing,x,y);
-  keyCount = typing.length();
-  
-}
-
-
-void input(int buffSize_) {
-  
-  buffSize = buffSize_;
-    
-    // If the return key is pressed, save the String and clear it
-  if (key == '\n' ) {
-    saved = typing;
-    enter = true;
-    // A String can be cleared by setting it equal to ""
-    typing = ""; 
-  } else {
-    // Otherwise, concatenate the String
-    // Each character typed by the user is added to the end of the String variable.
-
-    
-    //This next part lets us delete mistyped characters
-   if ((keyCode == BACKSPACE) && (keyCount > 0)) {
-        typing = typing.substring(0, typing.length() - 1);
-        } 
-   else
-     if ((key != CODED) && (keyCount < buffSize)) typing += key; 
-      }  
-  
-  }
-
-}
+//
+//class Input{
+//  
+//String typing = "";    // Variable to store text currently being typed
+//String saved = "";    // Variable to store saved text when return is hit
+//int keyCount = typing.length();
+//int buffSize = 25;
+//int x = 0;
+//int y = 0;
+//boolean enter = false;
+//
+//// input(){
+////   
+//// }
+//  
+//void display(int x_, int y_){
+//  
+//  // Display everything
+//  x = x_;
+//  y = y_;
+//  
+//  text(typing,x,y);
+//  keyCount = typing.length();
+//  
+//}
+//
+//
+//void input(int buffSize_) {
+//  
+//  buffSize = buffSize_;
+//    
+//    // If the return key is pressed, save the String and clear it
+//  if (key == '\n' ) {
+//    saved = typing;
+//    enter = true;
+//    // A String can be cleared by setting it equal to ""
+//    typing = ""; 
+//  } else {
+//    // Otherwise, concatenate the String
+//    // Each character typed by the user is added to the end of the String variable.
+//
+//    
+//    //This next part lets us delete mistyped characters
+//   if ((keyCode == BACKSPACE) && (keyCount > 0)) {
+//        typing = typing.substring(0, typing.length() - 1);
+//        } 
+//   else
+//     //if ((key != CODED) && (keyCount < buffSize)) typing += key; //For JAVA
+//     if ((key != CODED) && (keyCount < buffSize)) typing += key.toString();;  //For JS
+//      }  
+//  
+//  }
+//
+//}
 //-------------------------------------
 
 
@@ -542,7 +544,7 @@ void input(int buffSize_) {
   mainButton.update();
   
   logo.resize(width, 0);
-  image(logo, 0, style.row1);
+  image(logo, 0, style.row1/2);
   //---button---//
  
  //text("word", 10, 60);
@@ -550,8 +552,8 @@ void input(int buffSize_) {
  textSize(style.p);
  textAlign(CENTER);
  
- text("Relay Rush is a relay race on skateboards. The goal of teams is to complete the obstacle course doing the hardest tricks in the fastest time. players man obstacles and land a sucessful trick/trick line on said obstacle then rush over to their next team mate. This action is repeated until the last player has gone.", style.col1, style.row6, style.col6, style.row6 ); //write rules here
- text("THE CATCH: players must submit their trick decisions too the ref before the game begins. All trick decisions are final. Players get penalized for missing. The more you miss the higher the penalty. Players can cop-out for a default score. A cop-out is any trick other than the one the ref has registered for you.", style.col1, style.row7, style.col6, style.row7 ); //write rules here
+ text("Relay Rush is a relay race on skateboards. The goal of teams is to complete the obstacle course doing the hardest tricks in the fastest time. players man obstacles and land a sucessful trick/trick line on said obstacle then rush over to their next team mate. This action is repeated until the last player has gone.", style.col1, style.row5b, style.col6, style.row5b ); //write rules here
+ text("THE CATCH: players must submit their trick decisions too the ref before the game begins. All trick decisions are final. Players get penalized for missing. The more you miss the higher the penalty. Players can cop-out for a default score. A cop-out is any trick other than the one the ref has registered for you.", style.col1, style.row6b, style.col6, style.row6b ); //write rules here
  
  
  
@@ -570,7 +572,7 @@ void input(int buffSize_) {
     skateBool= false; 
     localBool = false;
     lesDBool = false;
-    checkBool = false;
+    checkBool = true;
     loginBool = false;
     team1Bool = false;
     team2Bool = false;
@@ -581,11 +583,13 @@ void input(int buffSize_) {
  textSize(style.h3);
  
 if (team1or2 == false){
- text(teamname1.saved, style.centerX, style.row1);
+// text(teamname1.saved, style.centerX, style.row1);
+   text("Team 1", style.centerX, style.row1);
  }
  
 if (team1or2 == true){
- text(teamname2.saved, style.centerX, style.row1);
+ //text(teamname2.saved, style.centerX, style.row1);
+ text("Team 2", style.centerX, style.row1);
  }
  
  text("Obstacle "+ trickNum, style.centerX, style.row2);
@@ -846,18 +850,21 @@ public void refScreen(){
   }
   
   String timer = nf(120 - sw.second(), 3);
+  textSize(style.h2);
   text("TIMER: "+timer, style.centerX, style.row7);
     
    if (team1or2 == false){
     textSize(style.h1);
-    text(teamname1.saved, style.centerX, style.row1); 
+    //text(teamname1.saved, style.centerX, style.row1); 
+    text("Team 1", style.centerX, style.row1);
     text("Obstacle # " + obstacle1, style.centerX, style.row2);
     team1Run();
    }
    
    if (team1or2 == true){
     textSize(style.h1); 
-    text(teamname2.saved, style.centerX, style.row1);
+//    text(teamname2.saved, style.centerX, style.row1);
+    text("Team 2", style.centerX, style.row1);
     text("Obstacle # " + obstacle2, style.centerX, style.row2);
     team2Run();
    }
@@ -932,6 +939,7 @@ public void refScreen(){
   
 
   String timer = nf(120 - sw.second(), 3);
+  textSize(style.h2);
   text("TIMER: "+timer, style.centerX, style.row7);
   
  }
@@ -1031,7 +1039,8 @@ public void refScreen(){
       
   
   textSize(style.h2);
-  text(teamname1.saved, style.col2, style.row1);
+//  text(teamname1.saved, style.col2, style.row1);
+  text("Team 1", style.col2, style.row1);
   if (total1Once == false){
     for (int i=0; i<4; i++){
       totalScore1 += team1trickPoints[i];
@@ -1055,7 +1064,8 @@ public void refScreen(){
   text("Cop Outs " + cop1, style.col2, style.row6);
   }
   
-  text(teamname2.saved, style.col6, style.row1);
+//  text(teamname2.saved, style.col6, style.row1);
+  text("Team 2", style.col6, style.row1);
     if (total2Once == false){
     for (int i=0; i<4; i++){
       totalScore2 += team2trickPoints[i];
@@ -1119,7 +1129,9 @@ int row2;
 int row3;
 int row4;
 int row5;
+int row5b;
 int row6;
+int row6b;
 int row7;
 int row8;
 
@@ -1162,7 +1174,9 @@ Style() {
   row3 = int(height/2.66);
   row4 = int(height/2);
   row5 = int(height/1.6);
+  row5b = int (height/1.45); //special row added to fit everything on the main screen
   row6 = int(height/1.33);
+  row6b = int(height/1.19);
   row7 = int(height/1.14);
   row8 = int(height);
   

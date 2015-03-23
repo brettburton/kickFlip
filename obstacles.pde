@@ -7,7 +7,7 @@
     skateBool= false; 
     localBool = false;
     lesDBool = false;
-    checkBool = false;
+    checkBool = true;
     loginBool = false;
     team1Bool = false;
     team2Bool = false;
@@ -18,11 +18,13 @@
  textSize(style.h3);
  
 if (team1or2 == false){
- text(teamname1.saved, style.centerX, style.row1);
+// text(teamname1.saved, style.centerX, style.row1);
+   text("Team 1", style.centerX, style.row1);
  }
  
 if (team1or2 == true){
- text(teamname2.saved, style.centerX, style.row1);
+ //text(teamname2.saved, style.centerX, style.row1);
+ text("Team 2", style.centerX, style.row1);
  }
  
  text("Obstacle "+ trickNum, style.centerX, style.row2);

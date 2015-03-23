@@ -37,7 +37,9 @@ int row2;
 int row3;
 int row4;
 int row5;
+int row5b;
 int row6;
+int row6b;
 int row7;
 int row8;
 
@@ -80,7 +82,9 @@ Style() {
   row3 = int(height/2.66);
   row4 = int(height/2);
   row5 = int(height/1.6);
+  row5b = int (height/1.45); //special row added to fit everything on the main screen
   row6 = int(height/1.33);
+  row6b = int(height/1.19);
   row7 = int(height/1.14);
   row8 = int(height);
   

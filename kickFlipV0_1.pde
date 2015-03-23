@@ -11,8 +11,8 @@
  String[] stanceNames = {"regular","nollie","switch","fakie"};
  
   
- Input teamname1;
- Input teamname2;
+ //Input teamname1;
+ //Input teamname2;
 
  StopWatchTimer sw;
  Style style;
@@ -127,13 +127,13 @@ int whichStance = 0;
  void setup(){
 
 //1136×640 iphone screen
-//size(640,1136);
-size(400,710); //iPhone aspect ratio but not full screen size
+size(640,1136);
+//size(400,710); //iPhone aspect ratio but not full screen size
 smooth();
 
 
-teamname1 = new Input();
-teamname2 = new Input();
+//teamname1 = new Input();
+//teamname2 = new Input();
 
 style = new Style();
 style.scheme(2);
@@ -203,16 +203,17 @@ stancePrevButton = new button();
  }
  
  if(checkBool){
-  loginScreen();
- }
- 
-  if(loginBool){
-  loginScreen2();
- }
- 
-   if(loginBool2){
+ // loginScreen();
   obstaclesScreen();
  }
+// 
+//  if(loginBool){
+//  loginScreen2();
+// }
+// 
+//   if(loginBool2){
+//  obstaclesScreen();
+// }
  
  if(readyBool){
   readyScreen();
@@ -240,13 +241,13 @@ stancePrevButton = new button();
 
  void keyPressed() {
   
-   if(checkBool){
-   teamname1.input(13);
-   }
-   
-   if(loginBool){
-   teamname2.input(13);
-   }
-   
+//   if(checkBool){
+//   teamname1.input(13);
+//   }
+//   
+//   if(loginBool){
+//   teamname2.input(13);
+//   }
+//   
 }
 
